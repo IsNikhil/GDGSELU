@@ -39,7 +39,7 @@ export const liondevs = {
   closingLine: "Form your team. Create impact. Join LionDevs.",
   registration: {
     endpoint:
-      "https://script.google.com/macros/s/AKfycbwxkqlxF36qE_twMS2TuWwzl7OowICAZytZ-_OQ-Tyvd6SWnUPM248QUz0xmNWGmL0qWA/exec",
+      "https://script.google.com/macros/s/AKfycbzDZRzV6UjomoTMPCaYg-pZwEbTxc4qD-H9pxRHBtzF4ppu7nbtPhKSeGNNkoHdxrWwdQ/exec",
     pageUrl: "/liondevs/register",
   },
   prizes: "TBD",

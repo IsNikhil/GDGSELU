@@ -4,6 +4,10 @@
  * (optionally) sends the person a short confirmation email.
  * Setup steps are in docs/registration-setup.md.
  *
+ * Email goes through Resend when the RESEND_API_KEY script property is set,
+ * otherwise through this Google account (MailApp). Keys live in
+ * Project Settings > Script Properties, never in this file or the website.
+ *
  * Columns are kept in the order of COLUMNS below. If the sheet is out of order
  * (or has a column listed in REMOVED_COLUMNS), it is rearranged on the next sign up
  * without losing data. To rearrange right away, select reorderColumns and click Run.
@@ -13,6 +17,7 @@
 var SHEET_NAME = "Registrations";
 var SEND_CONFIRMATION_EMAIL = true;
 var FROM_NAME = "GDG Southeastern";
+var RESEND_ENDPOINT = "https://api.resend.com/emails";
 
 var COLUMNS = [
   "Timestamp", "Name", "Email", "Major", "School", "Advisor", "Year", "Active student",
@@ -67,16 +72,12 @@ function doPost(e) {
     }));
 
     if (SEND_CONFIRMATION_EMAIL && !duplicate) {
-      MailApp.sendEmail({
-        to: email,
-        name: FROM_NAME,
-        subject: "You are on the LionDevs list",
-        htmlBody:
-          "<p>Hi " + escapeHtml(name.split(" ")[0]) + ",</p>" +
-          "<p>Thanks for signing up for <b>LionDevs</b>, the Innovation &amp; Solutions Competition hosted by GDG Southeastern at Southeastern Louisiana University.</p>" +
-          "<p>We will email you when the date and challenge are announced.</p>" +
-          "<p>Build. Solve. Pitch.<br>GDG Southeastern</p>"
-      });
+      // The sign up is already saved, so a failed email must not fail the request.
+      try {
+        sendConfirmation(email, name);
+      } catch (mailErr) {
+        console.error("Confirmation email failed for " + email + ": " + mailErr);
+      }
     }
     return json({ ok: true });
   } catch (err) {
@@ -84,6 +85,91 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+/** The LionDevs confirmation email. */
+function sendConfirmation(email, name) {
+  var first = escapeHtml(name.split(" ")[0]);
+  sendEmail({
+    to: email,
+    subject: "You are on the LionDevs list",
+    html:
+      "<p>Hi " + first + ",</p>" +
+      "<p>Thanks for signing up for <b>LionDevs</b>, the Innovation &amp; Solutions Competition hosted by GDG Southeastern at Southeastern Louisiana University.</p>" +
+      "<p>We will email you when the date and challenge are announced.</p>" +
+      "<p>Build. Solve. Pitch.<br>GDG Southeastern</p>",
+    text:
+      "Hi " + name.split(" ")[0] + ",\n\n" +
+      "Thanks for signing up for LionDevs, the Innovation & Solutions Competition hosted by GDG Southeastern at Southeastern Louisiana University.\n\n" +
+      "We will email you when the date and challenge are announced.\n\n" +
+      "Build. Solve. Pitch.\nGDG Southeastern"
+  });
+}
+
+/**
+ * Sends one email. Uses Resend when RESEND_API_KEY is set, otherwise MailApp.
+ * Script properties:
+ *   RESEND_API_KEY   the Resend API key (sending access only)
+ *   RESEND_FROM      verified sender, e.g. "GDG Southeastern <hello@gdgselu.com>"
+ *   RESEND_REPLY_TO  optional, where replies should go
+ */
+function sendEmail(msg) {
+  var props = PropertiesService.getScriptProperties();
+  var key = cleanProp(props.getProperty("RESEND_API_KEY"));
+  if (!key) {
+    MailApp.sendEmail({ to: msg.to, name: FROM_NAME, subject: msg.subject, htmlBody: msg.html });
+    return;
+  }
+
+  var from = cleanProp(props.getProperty("RESEND_FROM"));
+  if (!from) throw new Error("RESEND_FROM script property is missing");
+  if (!isSender(from)) {
+    throw new Error(
+      'RESEND_FROM must look like "hello@gdgselu.com" or "GDG Southeastern <hello@gdgselu.com>". ' +
+      "Current value: [" + from + "]"
+    );
+  }
+  var payload = { from: from, to: [msg.to], subject: msg.subject, html: msg.html, text: msg.text };
+  var replyTo = cleanProp(props.getProperty("RESEND_REPLY_TO"));
+  if (replyTo) payload.reply_to = replyTo;
+
+  var res = UrlFetchApp.fetch(RESEND_ENDPOINT, {
+    method: "post",
+    contentType: "application/json",
+    headers: { Authorization: "Bearer " + key },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  });
+  var code = res.getResponseCode();
+  if (code < 200 || code >= 300) {
+    throw new Error("Resend responded " + code + ": " + res.getContentText());
+  }
+}
+
+/** Trims a script property and strips quotes or backticks pasted around it. */
+function cleanProp(v) {
+  return String(v || "")
+    .replace(/[“”‘’]/g, '"')
+    .trim()
+    .replace(/^["'`]+|["'`]+$/g, "")
+    .trim();
+}
+
+/** "email@example.com" or "Name <email@example.com>". */
+function isSender(v) {
+  var email = "[^\\s@<>]+@[^\\s@<>]+\\.[^\\s@<>]+";
+  return new RegExp("^(" + email + "|[^<>]+<" + email + ">)$").test(v);
+}
+
+/**
+ * Run this from the Apps Script editor to check the email setup.
+ * Set TEST_EMAIL in Script Properties to the address that should receive the test.
+ */
+function testEmail() {
+  var to = PropertiesService.getScriptProperties().getProperty("TEST_EMAIL");
+  if (!to) throw new Error("Add a TEST_EMAIL script property first");
+  sendConfirmation(to, "Test Person");
+  console.log("Test email sent to " + to);
 }
 
 /** Run this once from the Apps Script editor to fix the column order right away. */
