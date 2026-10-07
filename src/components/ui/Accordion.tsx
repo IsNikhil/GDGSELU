@@ -1,77 +1,63 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useId, useState } from "react";
 import { cn } from "@/lib/utils";
+import { Reveal } from "./Reveal";
 
 type Item = { q: string; a: string };
 
-/** Accessible accordion. Uses the WAI-ARIA disclosure pattern. */
-export function Accordion({ items, tone = "site" }: { items: Item[]; tone?: "site" | "ld" }) {
-  const [open, setOpen] = useState<number | null>(0);
+/** FAQ list. White cards, a plus that turns into an x, and a smooth height change. */
+export function Accordion({ items }: { items: Item[] }) {
+  const [open, setOpen] = useState<number | null>(null);
   const baseId = useId();
-  const ld = tone === "ld";
 
   return (
-    <ul className="flex flex-col gap-3">
+    <ul className="flex flex-col gap-4">
       {items.map((item, i) => {
         const isOpen = open === i;
         const btnId = `${baseId}-btn-${i}`;
         const panelId = `${baseId}-panel-${i}`;
         return (
-          <li
-            key={item.q}
-            className={cn(
-              "rounded-2xl border transition-colors duration-300",
-              ld
-                ? isOpen
-                  ? "border-ld-gold/60 bg-ld-bg-2"
-                  : "border-ld-gold/20 bg-ld-bg-2/50 hover:border-ld-gold/40"
-                : isOpen
-                  ? "border-line bg-surface shadow-card"
-                  : "border-line bg-surface",
-            )}
-          >
-            <h3 className="text-base sm:text-lg">
-              <button
-                id={btnId}
-                type="button"
-                aria-expanded={isOpen}
-                aria-controls={panelId}
-                onClick={() => setOpen(isOpen ? null : i)}
+          <Reveal as="li" key={item.q} delay={i * 0.06} duration={0.5}>
+            <div className="rounded-2xl border border-line bg-white transition-colors duration-200 hover:border-line-hover">
+              <h3>
+                <button
+                  id={btnId}
+                  type="button"
+                  aria-expanded={isOpen}
+                  aria-controls={panelId}
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-2xl px-6 py-5 text-left text-[16px] font-bold text-foreground sm:px-7"
+                >
+                  {item.q}
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "flex size-6 shrink-0 items-center justify-center text-subtle transition-transform duration-200",
+                      isOpen && "rotate-45",
+                    )}
+                  >
+                    <Plus className="size-4" />
+                  </span>
+                </button>
+              </h3>
+              <div
+                id={panelId}
+                role="region"
+                aria-labelledby={btnId}
+                inert={!isOpen}
                 className={cn(
-                  "flex min-h-14 w-full items-center justify-between gap-4 rounded-2xl px-5 py-4 text-left font-semibold sm:px-6",
-                  ld ? "text-ld-text" : "text-fg",
+                  "grid transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                  isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
                 )}
               >
-                <span>{item.q}</span>
-                <ChevronDown
-                  aria-hidden
-                  className={cn(
-                    "size-5 shrink-0 transition-transform duration-300",
-                    isOpen && "rotate-180",
-                    ld ? "text-ld-gold" : "text-muted",
-                  )}
-                />
-              </button>
-            </h3>
-            <div
-              id={panelId}
-              role="region"
-              aria-labelledby={btnId}
-              hidden={!isOpen}
-              className="px-5 pb-5 sm:px-6"
-            >
-              <p
-                className={cn(
-                  "animate-[rise-in_0.35s_ease-out_both]",
-                  ld ? "text-ld-muted" : "text-muted",
-                )}
-              >
-                {item.a}
-              </p>
+                <div className="overflow-hidden">
+                  <p className="px-6 pb-6 text-[14px] leading-[1.7] text-muted sm:px-7">{item.a}</p>
+                </div>
+              </div>
             </div>
-          </li>
+          </Reveal>
         );
       })}
     </ul>

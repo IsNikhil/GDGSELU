@@ -1,61 +1,65 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
-import type { ReactNode } from "react";
-
-const ease = [0.22, 1, 0.36, 1] as const;
-
-const item: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } },
-};
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 type Props = {
   children: ReactNode;
   className?: string;
+  as?: "div" | "section" | "li" | "ul" | "ol" | "dl" | "article" | "header";
+  /** Seconds before the transition starts. Use i * 0.15 to stagger siblings. */
   delay?: number;
-  as?: "div" | "section" | "li" | "ul" | "ol" | "dl" | "article";
+  /** Starting offset in px. */
+  y?: number;
+  /** Starting blur in px. Headings use 8, cards use 0. */
+  blur?: number;
+  duration?: number;
+  id?: string;
 };
 
-/** Fades and slides its content up when it scrolls into view. */
-export function Reveal({ children, className, delay = 0, as = "div" }: Props) {
-  const M = motion[as];
-  return (
-    <M
-      data-reveal
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      variants={item}
-      transition={{ delay }}
-    >
-      {children}
-    </M>
-  );
-}
+/**
+ * Fades, lifts, and unblurs its content the first time it scrolls into view.
+ * The look lives in globals.css (.reveal), this only flips data-shown.
+ */
+export function Reveal({
+  children,
+  className,
+  as: Tag = "div",
+  delay = 0,
+  y = 24,
+  blur = 0,
+  duration = 0.6,
+  id,
+}: Props) {
+  const ref = useRef<HTMLElement>(null);
 
-/** Parent for a group of RevealItem children that appear one after another. */
-export function Stagger({ children, className, as = "div", gap = 0.09 }: Props & { gap?: number }) {
-  const M = motion[as];
-  return (
-    <M
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      variants={{ hidden: {}, show: { transition: { staggerChildren: gap } } }}
-    >
-      {children}
-    </M>
-  );
-}
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.setAttribute("data-shown", "");
+          io.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
-export function RevealItem({ children, className, as = "div" }: Props) {
-  const M = motion[as];
+  const style = {
+    "--reveal-y": `${y}px`,
+    "--reveal-blur": `${blur}px`,
+    "--reveal-dur": `${duration}s`,
+    "--reveal-delay": `${delay}s`,
+  } as CSSProperties;
+
   return (
-    <M data-reveal className={className} variants={item}>
+    // @ts-expect-error: ref type differs per tag, all are HTMLElements.
+    <Tag ref={ref} id={id} className={cn("reveal", className)} style={style}>
       {children}
-    </M>
+    </Tag>
   );
 }

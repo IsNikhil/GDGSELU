@@ -1,144 +1,153 @@
-import { CalendarClock, ChevronDown, GraduationCap } from "lucide-react";
+import { ArrowDown, Check, ChevronLeft, Maximize2 } from "lucide-react";
 import Image from "next/image";
+import { Button } from "@/components/ui/Button";
+import { Sky } from "@/components/ui/Sky";
 import { liondevs } from "@/data/liondevs";
-import { parseDate } from "@/lib/utils";
-import { CircuitCorner } from "./CircuitLines";
+import { parseDate, rise } from "@/lib/utils";
 import { Countdown } from "./Countdown";
-import { RegisterButton } from "./RegisterButton";
+import { RegisterButton, registrationOpen } from "./RegisterButton";
 
-function GdgMark() {
+/** Dark event window: the logo on the right, highlights typing in on the left. */
+function EventConsole() {
+  const date = parseDate(liondevs.date);
   return (
-    <svg
-      aria-hidden
-      viewBox="0 0 48 24"
-      className="h-4 w-8"
-      fill="none"
-      strokeWidth="5"
-      strokeLinecap="round"
-    >
-      <path d="M16 4 L5 12" stroke="var(--g-red)" />
-      <path d="M5 12 L16 20" stroke="var(--g-blue)" />
-      <path d="M32 4 L43 12" stroke="var(--g-green)" />
-      <path d="M43 12 L32 20" stroke="var(--g-yellow)" />
-    </svg>
+    <div className="overflow-hidden rounded-2xl border border-black/20 bg-[#0d0d0d] text-left shadow-lg shadow-black/10">
+      <div
+        aria-hidden
+        className="flex h-9 items-center justify-between gap-2 border-b border-white/[0.06] px-3 md:h-10 md:px-4"
+      >
+        <div className="flex min-w-0 items-center gap-2 md:gap-3">
+          <span className="flex shrink-0 items-center gap-1 text-[11px] text-white/40">
+            <ChevronLeft className="size-3" />
+            GDG
+          </span>
+          <span className="truncate text-[11.5px] font-medium text-white/85 md:text-[12px]">
+            liondevs
+          </span>
+          <span className="hidden items-center gap-1.5 text-[10px] text-white/40 sm:flex">
+            <span className="size-1.5 rounded-full bg-[#e2b65b]" />
+            {liondevs.format}
+          </span>
+        </div>
+        <span className="flex shrink-0 items-center gap-1.5 text-[10px] text-white/45">
+          <span
+            className={`size-1.5 rounded-full ${registrationOpen ? "bg-[#4ade80]" : "bg-white/30"}`}
+          />
+          {registrationOpen ? "Registration open" : "Opening soon"}
+        </span>
+      </div>
+
+      <div className="flex flex-col-reverse sm:h-[340px] sm:flex-row">
+        <div className="flex min-w-0 flex-1 flex-col justify-between gap-6 border-white/[0.06] p-4 sm:border-r md:w-[340px] md:flex-none md:p-5">
+          <div>
+            <p className="text-[10px] tracking-[0.2em] text-white/35 uppercase">Why join</p>
+            <ul className="mt-3 flex flex-col gap-2 font-mono text-[11.5px] md:text-[12px]">
+              {liondevs.highlights.map((h, i) => (
+                <li
+                  key={h.text}
+                  className="rise flex items-start gap-2 text-white/70"
+                  style={rise({ y: 6, dur: 0.4, delay: 1.6 + i * 0.3 })}
+                >
+                  <Check aria-hidden className="mt-0.5 size-3.5 shrink-0 text-[#4ade80]" />
+                  {h.text}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="mb-2 text-[10px] tracking-[0.2em] text-white/35 uppercase">
+              {date ? "Starts in" : "When"}
+            </p>
+            {date ? (
+              <Countdown iso={liondevs.date} />
+            ) : (
+              <p className="text-[13px] text-white/80">
+                {liondevs.tentativeDate || "Date to be announced"}
+                <span className="text-white/40"> (tentative)</span>
+              </p>
+            )}
+          </div>
+        </div>
+        <div aria-hidden className="relative flex flex-1 items-center justify-center py-8 sm:py-0">
+          <Maximize2 className="absolute top-3 right-3 size-3 text-white/25" />
+          <Image
+            src={liondevs.logo}
+            alt=""
+            width={240}
+            height={240}
+            priority
+            sizes="(min-width: 768px) 240px, 160px"
+            className="bob size-40 rounded-2xl shadow-2xl shadow-black/60 md:size-[220px]"
+          />
+        </div>
+      </div>
+    </div>
   );
 }
 
 export function LionDevsHero() {
-  const date = parseDate(liondevs.date);
+  const [last, ...rest] = [...liondevs.headline].reverse();
+  const first = rest.reverse();
+
   return (
     <section
       aria-labelledby="ld-title"
-      className="relative isolate flex min-h-[calc(100svh-var(--nav-h))] items-center overflow-hidden"
+      className="relative flex flex-col items-center overflow-x-clip px-6 pt-16 pb-16 md:pb-24"
     >
-      {/* Background glow and circuit corners */}
-      <div aria-hidden className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgb(47_107_85/0.55),transparent_70%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[radial-gradient(ellipse_60%_80%_at_50%_100%,rgb(212_179_106/0.12),transparent_70%)]" />
-      </div>
-      <CircuitCorner
-        corner="tl"
-        delay={0.2}
-        className="absolute top-0 left-0 w-[clamp(7rem,22vw,17rem)]"
-      />
-      <CircuitCorner
-        corner="tr"
-        delay={0.4}
-        className="absolute top-0 right-0 w-[clamp(7rem,22vw,17rem)]"
-      />
-      <CircuitCorner
-        corner="bl"
-        delay={0.6}
-        className="absolute bottom-0 left-0 hidden w-[clamp(7rem,18vw,14rem)] sm:block"
-      />
-      <CircuitCorner
-        corner="br"
-        delay={0.8}
-        className="absolute right-0 bottom-0 hidden w-[clamp(7rem,18vw,14rem)] sm:block"
-      />
+      <Sky className="h-[85vh] min-h-[560px]" />
 
-      <div className="container-site flex flex-col items-center py-[clamp(2.5rem,6vw,5rem)] text-center">
-        <div className="relative w-[clamp(9rem,26vw,15rem)]">
-          <div
-            aria-hidden
-            className="glow-pulse absolute inset-[8%] -z-10 rounded-full bg-[radial-gradient(circle,rgb(230_201_136/0.45),transparent_68%)]"
-          />
-          <Image
-            src={liondevs.logo}
-            alt="LionDevs logo"
-            width={1254}
-            height={1254}
-            priority
-            sizes="(min-width: 1024px) 240px, 40vw"
-            className="animate-float h-auto w-full rounded-[1.75rem]"
-          />
-        </div>
-
-        <p className="rise-in mt-6 inline-flex items-center gap-2 rounded-full border border-ld-gold/40 bg-ld-bg-2/70 px-4 py-1.5 text-sm text-ld-text [animation-delay:100ms]">
-          <span className="font-serif font-semibold text-ld-gold-light">Hosted by</span>
-          <GdgMark />
-          <span className="font-semibold">GDG</span>
-          <span className="sr-only">, Google Developer Group</span>
-        </p>
-
-        <p className="rise-in mt-6 text-xs font-semibold tracking-[0.32em] text-ld-gold uppercase [animation-delay:180ms] sm:text-sm">
+      <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center pt-14 text-center md:pt-[4.5rem]">
+        <p
+          className="rise mb-6 inline-flex items-center gap-2 rounded-full border border-line bg-white/60 px-3.5 py-1 text-[12px] font-medium text-muted backdrop-blur-sm"
+          style={rise({ y: 12, dur: 0.6, delay: 0.25 })}
+        >
+          <span className="size-1.5 rounded-full bg-brand" />
           {liondevs.label}
         </p>
-
-        <h1
-          id="ld-title"
-          className="mt-4 font-serif text-[clamp(2.75rem,1.4rem+7vw,7rem)] leading-[1] font-bold tracking-[-0.02em]"
-        >
-          <span className="sr-only">
-            {liondevs.name}: {liondevs.headline.join(" ")}
+        <h1 id="ld-title" className="rise mb-5" style={rise({ y: 30, blur: 6, delay: 0.35 })}>
+          <span className="sr-only">{liondevs.name}: </span>
+          <span className="block text-[clamp(2.5rem,11vw,3.25rem)] leading-[0.95] font-extrabold tracking-[-0.03em] text-foreground md:text-[clamp(3.25rem,6vw,4.5rem)]">
+            {first.join(" ")}
           </span>
-          <span aria-hidden className="flex flex-wrap justify-center gap-x-[0.28em]">
-            {liondevs.headline.map((word, i) => (
-              <span
-                key={word}
-                className={`rise-in inline-block ${i === 1 ? "text-gold-gradient" : "text-ld-text"}`}
-                style={{ animationDelay: `${300 + i * 260}ms` }}
-              >
-                {word}
-              </span>
-            ))}
+          <span className="serif-italic block text-[clamp(2.5rem,11vw,3.25rem)] leading-[1.05] tracking-[-0.02em] text-foreground md:text-[clamp(3.25rem,6vw,4.5rem)]">
+            {last}
           </span>
         </h1>
-
-        <p className="rise-in mt-6 max-w-2xl text-[length:var(--text-lead)] text-ld-muted [animation-delay:1100ms]">
+        <p
+          className="rise mb-7 max-w-xl text-[15px] leading-[1.65] text-muted"
+          style={rise({ y: 20, dur: 0.6, delay: 0.55 })}
+        >
           {liondevs.description}
         </p>
-        <p className="rise-in mt-4 inline-flex items-center gap-2 text-sm font-semibold text-ld-gold-light [animation-delay:1180ms] sm:text-base">
-          <GraduationCap aria-hidden className="size-5 shrink-0" />
+        <div
+          className="rise flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row"
+          style={rise({ y: 20, dur: 0.6, delay: 0.7 })}
+        >
+          <RegisterButton className="w-full sm:w-auto" />
+          <Button href="#overview" variant="outline" className="w-full sm:w-auto">
+            Learn more
+            <ArrowDown
+              aria-hidden
+              className="size-4 transition-transform duration-200 group-hover/btn:translate-y-0.5"
+            />
+          </Button>
+        </div>
+        <p
+          className="rise mt-5 text-[14px] text-muted"
+          style={rise({ y: 12, dur: 0.6, delay: 0.8 })}
+        >
           {liondevs.openTo}
         </p>
+      </div>
 
-        <div className="rise-in mt-7 [animation-delay:1250ms]">
-          {date ? (
-            <Countdown iso={liondevs.date} />
-          ) : (
-            <p className="inline-flex items-center gap-2 rounded-full border border-ld-gold/40 px-4 py-2 text-sm font-semibold text-ld-gold-light">
-              <CalendarClock aria-hidden className="size-4" />
-              {liondevs.tentativeDate
-                ? `${liondevs.tentativeDate} (tentative)`
-                : "Date to be announced"}
-            </p>
-          )}
+      <div
+        className="rise relative z-10 mx-auto mt-10 w-full max-w-5xl sm:px-4 md:mt-14"
+        style={rise({ y: 60, scale: 0.96, dur: 1, delay: 0.9 })}
+      >
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute top-1/3 left-1/2 h-[300px] w-[80%] -translate-x-1/2 rounded-full bg-brand opacity-[0.06] blur-[100px]" />
         </div>
-
-        <div className="rise-in mt-8 flex w-full flex-col items-center justify-center gap-3 [animation-delay:1400ms] sm:w-auto sm:flex-row">
-          <RegisterButton className="w-full sm:w-auto" />
-          <a
-            href="#overview"
-            className="group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-ld-gold/50 px-7 py-3.5 font-semibold text-ld-gold-light transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-ld-gold/10 sm:w-auto"
-          >
-            Learn more
-            <ChevronDown
-              aria-hidden
-              className="size-5 transition-transform group-hover:translate-y-0.5"
-            />
-          </a>
-        </div>
+        <EventConsole />
       </div>
     </section>
   );

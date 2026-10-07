@@ -1,57 +1,56 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { Reveal } from "./Reveal";
 
 type Props = {
-  eyebrow?: string;
+  /** Bold part of the heading. */
   title: ReactNode;
+  /** Optional serif italic ending, e.g. title "What your AI" + accent "can do". */
+  accent?: ReactNode;
   lead?: ReactNode;
   align?: "left" | "center";
-  tone?: "site" | "ld";
   as?: "h1" | "h2";
   id?: string;
   className?: string;
+  children?: ReactNode;
 };
 
+/** Section heading: Cabinet Grotesk bold with an Instrument Serif italic accent. */
 export function SectionHeading({
-  eyebrow,
   title,
+  accent,
   lead,
-  align = "left",
-  tone = "site",
+  align = "center",
   as: Tag = "h2",
   id,
   className,
+  children,
 }: Props) {
-  const ld = tone === "ld";
   return (
-    <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center", className)}>
-      {eyebrow && (
-        <p
-          className={cn(
-            "mb-3 text-xs font-bold uppercase tracking-[0.22em] sm:text-sm",
-            ld ? "text-ld-gold" : "text-gold-text",
-          )}
-        >
-          {eyebrow}
-        </p>
-      )}
-      <Tag
-        id={id}
-        className={cn(
-          "font-bold",
-          Tag === "h1" ? "text-[length:var(--text-h1)]" : "text-[length:var(--text-h2)]",
-          ld ? "font-serif font-semibold text-ld-text" : "text-fg",
-        )}
-      >
+    <Reveal
+      blur={8}
+      className={cn(align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-xl", className)}
+    >
+      <Tag id={id} className="mb-5 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
         {title}
+        {accent && (
+          <>
+            {" "}
+            <span className="serif-italic">{accent}</span>
+          </>
+        )}
       </Tag>
       {lead && (
         <p
-          className={cn("mt-4 text-[length:var(--text-lead)]", ld ? "text-ld-muted" : "text-muted")}
+          className={cn(
+            "text-[16px] leading-relaxed text-muted md:text-[17px]",
+            align === "center" && "mx-auto max-w-lg",
+          )}
         >
           {lead}
         </p>
       )}
-    </div>
+      {children}
+    </Reveal>
   );
 }

@@ -3,7 +3,6 @@ import { FeaturedEvent } from "@/components/home/FeaturedEvent";
 import { Hero } from "@/components/home/Hero";
 import { JoinCTA } from "@/components/home/JoinCTA";
 import { TeamPreview } from "@/components/home/TeamPreview";
-import { TechMarquee } from "@/components/home/TechMarquee";
 import { WhatWeDo } from "@/components/home/WhatWeDo";
 
 export default function Home() {
@@ -12,13 +11,12 @@ export default function Home() {
       <Hero />
       <AboutPreview />
       <WhatWeDo />
-      <section aria-label="Featured event" className="pb-[var(--section-y)]">
-        <div className="container-site">
+      <section aria-label="Featured event" className="px-4 py-10 sm:px-6 md:py-14">
+        <div className="mx-auto max-w-4xl">
           <FeaturedEvent />
         </div>
       </section>
       <TeamPreview />
-      <TechMarquee />
       <JoinCTA />
     </>
   );

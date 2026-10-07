@@ -1,24 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit, Playfair_Display } from "next/font/google";
-import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
+import { Inter, Instrument_Serif } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
-import { MotionProvider } from "@/components/layout/MotionProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { site } from "@/data/site";
 import { jsonLd, pageMetadata } from "@/lib/seo";
-import { themeScript } from "@/lib/theme-script";
 import "./globals.css";
 
-const sans = Outfit({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans-family",
+  variable: "--font-inter",
   display: "swap",
 });
 
-const serif = Playfair_Display({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
-  weight: ["600", "700"],
-  variable: "--font-serif-family",
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
   display: "swap",
 });
 
@@ -32,10 +30,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0c1210" },
-  ],
+  themeColor: "#faf9f7",
 };
 
 const organization = {
@@ -51,34 +46,31 @@ const organization = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      data-theme="light"
-      suppressHydrationWarning
-      className={`${sans.variable} ${serif.variable}`}
-    >
+    <html lang="en" className={`${inter.variable} ${instrumentSerif.variable}`}>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {/* Cabinet Grotesk is not on Google Fonts. Fontshare serves it under a free license. */}
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="" />
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&display=swap"
+        />
         <noscript>
-          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+          <style>{`.reveal{opacity:1!important;transform:none!important;filter:none!important}`}</style>
         </noscript>
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(organization)} />
       </head>
-      <body className="flex min-h-dvh flex-col">
+      <body className="flex min-h-dvh flex-col antialiased">
         <a
           href="#main"
-          className="sr-only z-[100] rounded-full bg-[#1a73e8] px-5 py-3 font-semibold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+          className="sr-only z-[100] rounded-full bg-foreground px-5 py-3 text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
         >
           Skip to content
         </a>
-        <MotionProvider>
-          <AnnouncementBar />
-          <Navbar />
-          <main id="main" tabIndex={-1} className="flex-1 outline-none">
-            {children}
-          </main>
-          <Footer />
-        </MotionProvider>
+        <Navbar />
+        <main id="main" tabIndex={-1} className="flex-1 outline-none">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );

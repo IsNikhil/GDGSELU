@@ -1,11 +1,9 @@
-import { Challenge } from "@/components/liondevs/Challenge";
+import { Details } from "@/components/liondevs/Details";
 import { FAQ } from "@/components/liondevs/FAQ";
 import { FinalCTA } from "@/components/liondevs/FinalCTA";
 import { LionDevsHero } from "@/components/liondevs/Hero";
-import { Highlights } from "@/components/liondevs/Highlights";
 import { Partners } from "@/components/liondevs/Partners";
 import { Poster } from "@/components/liondevs/Poster";
-import { Prizes } from "@/components/liondevs/Prizes";
 import { QuickFacts } from "@/components/liondevs/QuickFacts";
 import { Steps } from "@/components/liondevs/Steps";
 import { Timeline } from "@/components/liondevs/Timeline";
@@ -58,11 +56,9 @@ export default function LionDevsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(eventJsonLd())} />
       <LionDevsHero />
       <QuickFacts />
-      <Highlights />
       <Steps />
-      <Challenge />
+      <Details />
       <Timeline />
-      <Prizes />
       <Partners />
       <Poster />
       <FAQ />

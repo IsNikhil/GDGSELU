@@ -1,112 +1,98 @@
-import { ArrowRight, Sparkles } from "lucide-react";
-import Image from "next/image";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import { Magnetic } from "@/components/ui/Magnetic";
+import { Sky } from "@/components/ui/Sky";
+import { techAreas } from "@/data/about";
+import { liondevs } from "@/data/liondevs";
 import { site } from "@/data/site";
 import { joinHref } from "@/lib/links";
-
-/** Soft Google colored blobs and floating brackets. Transform only animation. */
-function HeroBackground() {
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-      <div className="blob-a absolute -top-[18%] -left-[12%] size-[min(70vw,560px)] rounded-full bg-[radial-gradient(circle,rgb(66_133_244/0.22),transparent_65%)]" />
-      <div className="blob-b absolute top-[8%] -right-[14%] size-[min(65vw,520px)] rounded-full bg-[radial-gradient(circle,rgb(52_168_83/0.18),transparent_65%)]" />
-      <div className="blob-b absolute -bottom-[22%] left-[18%] size-[min(60vw,480px)] rounded-full bg-[radial-gradient(circle,rgb(251_188_4/0.18),transparent_65%)]" />
-      <div className="blob-a absolute right-[22%] -bottom-[18%] size-[min(50vw,400px)] rounded-full bg-[radial-gradient(circle,rgb(234_67_53/0.14),transparent_65%)]" />
-      {/* Fine dot grid */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,color-mix(in_srgb,var(--text)_12%,transparent)_1px,transparent_0)] [background-size:28px_28px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
-    </div>
-  );
-}
-
-function FloatingBracket({ side, className }: { side: "left" | "right"; className?: string }) {
-  const [a, b] =
-    side === "left" ? ["var(--g-red)", "var(--g-blue)"] : ["var(--g-green)", "var(--g-yellow)"];
-  const d = side === "left" ? ["M30 6 L8 24", "M8 24 L30 42"] : ["M10 6 L32 24", "M32 24 L10 42"];
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 40 48"
-      fill="none"
-      strokeWidth="8"
-      strokeLinecap="round"
-      className={className}
-    >
-      <path d={d[0]} stroke={a} />
-      <path d={d[1]} stroke={b} />
-    </svg>
-  );
-}
+import { rise } from "@/lib/utils";
+import { ChapterConsole } from "./ChapterConsole";
 
 export function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="relative isolate overflow-hidden">
-      <HeroBackground />
-      <div className="container-site grid items-center gap-12 pt-[clamp(2.5rem,7vw,5.5rem)] pb-[clamp(4rem,9vw,7rem)] lg:grid-cols-[1.25fr_1fr]">
-        <div>
-          <p className="rise-in inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 px-4 py-1.5 text-sm font-semibold text-fg shadow-card backdrop-blur">
-            <Sparkles aria-hidden className="size-4 text-[#b06000] dark:text-[#fdd663]" />
-            {site.tagline}
-          </p>
-          <h1
-            id="hero-title"
-            className="rise-in mt-6 text-[length:var(--text-display)] leading-[1.02] font-bold tracking-[-0.035em] text-fg [animation-delay:80ms]"
-          >
-            Where Lions learn to{" "}
-            <span className="relative whitespace-nowrap text-[#1a73e8] dark:text-[#8ab4f8]">
-              <span aria-hidden className="text-[#c5221f] dark:text-[#f28b82]">
-                &lt;
-              </span>
-              build
-              <span aria-hidden className="text-[#188038] dark:text-[#81c995]">
-                /&gt;
-              </span>
-            </span>
-          </h1>
-          <p className="rise-in mt-6 max-w-xl text-[length:var(--text-lead)] text-muted [animation-delay:160ms]">
+    <section
+      aria-labelledby="hero-title"
+      className="relative flex flex-col items-center overflow-x-clip px-6 pt-16"
+    >
+      <Sky className="h-[85vh] min-h-[560px]" />
+
+      <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center pt-14 text-center md:pt-[4.5rem]">
+        <h1 id="hero-title" className="rise mb-5" style={rise({ y: 30, blur: 6, delay: 0.35 })}>
+          <span className="block text-[clamp(2.25rem,10.5vw,3rem)] leading-[0.95] font-extrabold tracking-[-0.03em] text-foreground md:text-[clamp(3rem,5vw,3.75rem)]">
+            Where Lions learn
+          </span>
+          <span className="serif-italic block text-[clamp(2.25rem,10.5vw,3rem)] leading-[1.05] tracking-[-0.02em] text-foreground md:text-[clamp(3rem,5vw,3.75rem)]">
+            to build.
+          </span>
+        </h1>
+
+        <p
+          className="rise mb-7 text-[15px] leading-[1.65] text-muted"
+          style={rise({ y: 20, dur: 0.6, delay: 0.55 })}
+        >
+          <span className="block">
             {site.name} is the student-run Google Developer Group at Southeastern Louisiana
-            University. No experience needed. Just bring your curiosity.
-          </p>
-          <div className="rise-in mt-9 flex flex-col gap-3 [animation-delay:240ms] sm:flex-row sm:items-center">
-            <Magnetic>
-              <Button href={joinHref} size="lg" className="w-full sm:w-auto">
-                Join GDG Southeastern
-                <ArrowRight
-                  aria-hidden
-                  className="size-5 transition-transform group-hover/btn:translate-x-1"
-                />
-              </Button>
-            </Magnetic>
-            <Button href="/liondevs" variant="secondary" size="lg">
-              <span aria-hidden className="size-2 rounded-full bg-[#d4af6a]" />
-              See LionDevs
-            </Button>
-          </div>
+            University.
+          </span>
+          <span className="block">No experience needed. Just bring your curiosity.</span>
+        </p>
+
+        <div
+          className="rise flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row"
+          style={rise({ y: 20, dur: 0.6, delay: 0.7 })}
+        >
+          <Button href={joinHref} className="w-full px-7 sm:w-auto">
+            Join GDG Southeastern
+          </Button>
+          <Button href="/liondevs" variant="outline" className="w-full sm:w-auto">
+            See LionDevs
+            <ArrowRight
+              aria-hidden
+              className="size-4 transition-transform duration-200 group-hover/btn:translate-x-0.5"
+            />
+          </Button>
         </div>
 
-        <div className="fade-in relative mx-auto w-full max-w-[min(100%,260px)] [animation-delay:200ms] sm:max-w-[300px]">
-          <FloatingBracket
-            side="left"
-            className="animate-float absolute top-[8%] -left-[6%] w-[16%] [animation-delay:-2s]"
-          />
-          <FloatingBracket
-            side="right"
-            className="animate-float absolute -right-[4%] bottom-[10%] w-[16%] [animation-delay:-4s]"
-          />
-          <div className="relative aspect-square rounded-[2rem] bg-[var(--logo-bg)] p-[3%] shadow-card-lg ring-1 ring-black/5">
-            <div
-              aria-hidden
-              className="absolute inset-0 -z-10 translate-y-4 scale-95 rounded-[2rem] bg-[conic-gradient(from_180deg,#4285f4,#34a853,#fbbc04,#ea4335,#4285f4)] opacity-40 blur-2xl"
-            />
-            <Image
-              src={site.logo}
-              alt="GDG Southeastern logo: a lion head between Google colored brackets"
-              width={200}
-              height={200}
-              priority
-              sizes="300px"
-              className="h-full w-full object-contain"
-            />
+        <p
+          className="rise mt-5 text-[14px] text-muted"
+          style={rise({ y: 12, dur: 0.6, delay: 0.8 })}
+        >
+          <Link href="/liondevs" className="transition-colors hover:text-foreground">
+            <span className="font-bold text-foreground">{liondevs.name}</span> is coming.{" "}
+            {liondevs.headline.join(" ")}
+          </Link>
+        </p>
+      </div>
+
+      <div className="relative z-10 mx-auto mt-10 w-full max-w-5xl sm:px-4 md:mt-14 md:h-[125vh]">
+        <div className="md:sticky md:top-24">
+          <div className="rise relative" style={rise({ y: 60, scale: 0.96, dur: 1, delay: 0.9 })}>
+            <div aria-hidden className="pointer-events-none absolute inset-0">
+              <div className="absolute top-1/3 left-1/2 h-[300px] w-[80%] -translate-x-1/2 rounded-full bg-brand opacity-[0.06] blur-[100px]" />
+            </div>
+            <ChapterConsole />
+          </div>
+
+          <div
+            className="rise mt-6 flex flex-wrap items-center justify-center gap-2"
+            style={rise({ y: 12, dur: 0.6, delay: 1.2 })}
+          >
+            <span className="mr-1 text-[12px] text-subtle">Technology we explore</span>
+            <ul className="contents">
+              {techAreas.map((t, i) => (
+                <li
+                  key={t}
+                  className={
+                    i === 0
+                      ? "rounded-full border border-brand/40 bg-brand/10 px-3 py-1 text-[12px] font-medium text-brand"
+                      : "rounded-full border border-line bg-white px-3 py-1 text-[12px] font-medium text-muted"
+                  }
+                >
+                  {t}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>

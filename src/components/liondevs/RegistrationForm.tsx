@@ -32,12 +32,12 @@ const heardOptions = [
 ];
 
 const field =
-  "mt-2 block w-full min-h-12 rounded-xl border border-ld-gold/30 bg-ld-bg px-4 py-3 text-ld-text placeholder:text-ld-muted/70 " +
-  "transition-colors focus:border-ld-gold-light focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ld-gold-light " +
-  "aria-[invalid=true]:border-[#f28b82]";
-const label = "block font-semibold text-ld-text";
-const hint = "mt-1 text-sm text-ld-muted";
-const errorText = "mt-2 text-sm font-medium text-[#f6aea9]";
+  "mt-2 block w-full min-h-12 rounded-xl border border-line bg-white px-4 py-3 text-[15px] outline-none text-foreground placeholder:text-subtle " +
+  "transition-colors focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none " +
+  "aria-[invalid=true]:border-[#c5221f]";
+const label = "block text-[14px] font-semibold text-foreground";
+const hint = "mt-1.5 text-[13px] text-muted";
+const errorText = "mt-2 text-sm font-medium text-[#c5221f]";
 
 function validate(data: FormData): Errors {
   const errors: Errors = {};
@@ -115,21 +115,17 @@ export function RegistrationForm() {
         ref={doneRef}
         tabIndex={-1}
         role="status"
-        className="rounded-[1.75rem] border border-ld-gold/50 bg-ld-bg-2 p-8 text-center outline-none sm:p-12"
+        className="rounded-3xl border border-line bg-white p-8 text-center outline-none sm:p-12"
       >
-        <CheckCircle2
-          aria-hidden
-          className="mx-auto size-14 text-ld-gold-light"
-          strokeWidth={1.5}
-        />
-        <h2 className="mt-5 font-serif text-[length:var(--text-h2)] font-semibold text-ld-text">
+        <CheckCircle2 aria-hidden className="mx-auto size-14 text-brand" strokeWidth={1.5} />
+        <h2 className="mt-5 font-display text-4xl font-bold tracking-tight text-foreground">
           You are on the list!
         </h2>
-        <p className="mx-auto mt-3 max-w-md text-ld-muted">
+        <p className="mx-auto mt-3 max-w-md text-muted">
           Thanks for signing up for LionDevs. We will email you as soon as the date, team details,
           and challenge are announced.
         </p>
-        <p className="mt-6 font-semibold text-ld-text">
+        <p className="mt-6 font-semibold text-foreground">
           While you wait, join the chapter and follow along:
         </p>
         <div className="mt-4 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -137,11 +133,11 @@ export function RegistrationForm() {
             href={site.joinUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-11 items-center rounded-full bg-gradient-to-r from-ld-gold to-ld-gold-light px-6 font-semibold text-ld-bg"
+            className="inline-flex min-h-11 items-center rounded-full bg-brand px-6 font-semibold text-white"
           >
             Join GDG Southeastern
           </a>
-          <SocialLinks tone="ld" />
+          <SocialLinks size="md" />
         </div>
       </div>
     );
@@ -155,11 +151,11 @@ export function RegistrationForm() {
       noValidate
       onSubmit={onSubmit}
       aria-describedby="form-note"
-      className="relative rounded-[1.75rem] border border-ld-gold/30 bg-ld-bg-2/70 p-6 sm:p-10"
+      className="relative rounded-3xl border border-line bg-white p-6 sm:p-10"
     >
-      <p id="form-note" className="text-sm text-ld-muted">
+      <p id="form-note" className="text-sm text-muted">
         Fields marked{" "}
-        <span aria-hidden className="text-ld-gold-light">
+        <span aria-hidden className="text-brand">
           *
         </span>
         <span className="sr-only">with an asterisk</span> are required.
@@ -170,12 +166,12 @@ export function RegistrationForm() {
           ref={summaryRef}
           tabIndex={-1}
           role="alert"
-          className="mt-5 rounded-xl border border-[#f28b82]/60 bg-[#f28b82]/10 p-4 outline-none"
+          className="mt-5 rounded-xl border border-[#c5221f]/25 bg-[#c5221f]/[0.04] p-4 outline-none"
         >
-          <p className="font-semibold text-ld-text">
+          <p className="font-semibold text-foreground">
             Please fix {errorList.length === 1 ? "this" : "these"}:
           </p>
-          <ul className="mt-2 list-disc pl-5 text-sm text-[#f6aea9]">
+          <ul className="mt-2 list-disc pl-5 text-sm text-[#c5221f]">
             {errorList.map(([k, msg]) => (
               <li key={k}>
                 <a href={`#reg-${k}`} className="underline underline-offset-2">
@@ -191,7 +187,7 @@ export function RegistrationForm() {
         <div>
           <label htmlFor="reg-name" className={label}>
             Full name{" "}
-            <span aria-hidden className="text-ld-gold-light">
+            <span aria-hidden className="text-brand">
               *
             </span>
           </label>
@@ -215,7 +211,7 @@ export function RegistrationForm() {
         <div>
           <label htmlFor="reg-email" className={label}>
             Email{" "}
-            <span aria-hidden className="text-ld-gold-light">
+            <span aria-hidden className="text-brand">
               *
             </span>
           </label>
@@ -243,7 +239,7 @@ export function RegistrationForm() {
         <div>
           <label htmlFor="reg-school" className={label}>
             School name{" "}
-            <span aria-hidden className="text-ld-gold-light">
+            <span aria-hidden className="text-brand">
               *
             </span>
           </label>
@@ -286,7 +282,7 @@ export function RegistrationForm() {
         <div>
           <label htmlFor="reg-major" className={label}>
             Major{" "}
-            <span aria-hidden className="text-ld-gold-light">
+            <span aria-hidden className="text-brand">
               *
             </span>
           </label>
@@ -328,7 +324,7 @@ export function RegistrationForm() {
       >
         <legend className={label}>
           Do you have a team?{" "}
-          <span aria-hidden className="text-ld-gold-light">
+          <span aria-hidden className="text-brand">
             *
           </span>
         </legend>
@@ -337,10 +333,10 @@ export function RegistrationForm() {
             <label
               key={o.value}
               className={cn(
-                "flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 text-ld-text transition-colors",
+                "flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 text-foreground transition-colors",
                 team === o.value
-                  ? "border-ld-gold bg-ld-gold/10"
-                  : "border-ld-gold/25 hover:border-ld-gold/50",
+                  ? "border-brand bg-brand/[0.06]"
+                  : "border-line hover:border-line-hover",
               )}
             >
               <input
@@ -349,7 +345,7 @@ export function RegistrationForm() {
                 value={o.value}
                 required
                 onChange={() => setTeam(o.value)}
-                className="size-5 shrink-0 accent-[#d4b36a]"
+                className="size-5 shrink-0 accent-[#6490d0]"
               />
               {o.label}
             </label>
@@ -378,13 +374,13 @@ export function RegistrationForm() {
           {interestOptions.map((o) => (
             <label
               key={o}
-              className="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-ld-gold/25 px-4 py-3 text-ld-text hover:border-ld-gold/50 has-[:checked]:border-ld-gold has-[:checked]:bg-ld-gold/10"
+              className="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-line px-4 py-3 text-foreground hover:border-line-hover has-[:checked]:border-brand has-[:checked]:bg-brand/[0.06]"
             >
               <input
                 type="checkbox"
                 name="interests"
                 value={o}
-                className="size-5 shrink-0 accent-[#d4b36a]"
+                className="size-5 shrink-0 accent-[#6490d0]"
               />
               {o}
             </label>
@@ -426,7 +422,7 @@ export function RegistrationForm() {
       <div className="mt-8">
         <label
           htmlFor="reg-student"
-          className="flex cursor-pointer items-start gap-3 rounded-xl border border-ld-gold/25 p-4 text-ld-text"
+          className="flex cursor-pointer items-start gap-3 rounded-xl border border-line p-4 text-foreground"
         >
           <input
             id="reg-student"
@@ -436,11 +432,11 @@ export function RegistrationForm() {
             required
             aria-invalid={Boolean(errors.student)}
             aria-describedby={errors.student ? "reg-student-error" : undefined}
-            className="mt-0.5 size-5 shrink-0 accent-[#d4b36a]"
+            className="mt-0.5 size-5 shrink-0 accent-[#6490d0]"
           />
           <span>
             I am an active student.{" "}
-            <span aria-hidden className="text-ld-gold-light">
+            <span aria-hidden className="text-brand">
               *
             </span>
           </span>
@@ -452,16 +448,16 @@ export function RegistrationForm() {
         )}
       </div>
 
-      <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-ld-gold/25 p-4 text-ld-text">
+      <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-line p-4 text-foreground">
         <input
           type="checkbox"
           name="consent"
           value="yes"
-          className="mt-0.5 size-5 shrink-0 accent-[#d4b36a]"
+          className="mt-0.5 size-5 shrink-0 accent-[#6490d0]"
         />
         <span>
           Yes, email me LionDevs updates and GDG Southeastern news.
-          <span className="mt-1 block text-sm text-ld-muted">You can unsubscribe at any time.</span>
+          <span className="mt-1 block text-sm text-muted">You can unsubscribe at any time.</span>
         </span>
       </label>
 
@@ -469,7 +465,7 @@ export function RegistrationForm() {
         <button
           type="submit"
           disabled={!connected || status === "sending"}
-          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-ld-gold to-ld-gold-light px-8 font-semibold text-ld-bg shadow-[0_8px_28px_-8px_rgb(212_179_106/0.6)] transition-transform hover:-translate-y-0.5 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
+          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-brand px-8 font-semibold text-white transition-all duration-300 hover:shadow-lg hover:shadow-brand/20 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 "
         >
           {status === "sending" && <Loader2 aria-hidden className="size-5 animate-spin" />}
           {!connected
@@ -478,10 +474,10 @@ export function RegistrationForm() {
               ? "Sending"
               : "Count me in"}
         </button>
-        <p aria-live="polite" className="text-sm text-ld-muted">
+        <p aria-live="polite" className="text-sm text-muted">
           {!connected && "The form is not open yet. Follow us for the launch."}
           {status === "error" && (
-            <span className="text-[#f6aea9]">
+            <span className="text-[#c5221f]">
               Something went wrong. Please try again in a moment, or message us on Instagram.
             </span>
           )}

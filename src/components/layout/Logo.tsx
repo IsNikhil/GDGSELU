@@ -2,33 +2,32 @@ import Image from "next/image";
 import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
-/** The GDG Southeastern logo on its original white tile. Never recolored or stretched. */
+/** Logo mark plus the chapter name set in Cabinet Grotesk. */
 export function Logo({
-  size = 44,
   className,
   priority = false,
+  showName = true,
 }: {
-  size?: number;
   className?: string;
   priority?: boolean;
+  showName?: boolean;
 }) {
   return (
-    <span
-      className={cn(
-        "inline-flex shrink-0 overflow-hidden rounded-xl bg-[var(--logo-bg)] ring-1 ring-black/5",
-        className,
-      )}
-      style={{ width: size, height: size }}
-    >
+    <span className={cn("inline-flex items-center gap-2.5", className)}>
       <Image
         src={site.logo}
-        alt="GDG Southeastern logo"
-        width={size}
-        height={size}
-        sizes={`${size}px`}
+        alt=""
+        width={32}
+        height={32}
+        sizes="64px"
         priority={priority}
-        className="h-full w-full object-contain"
+        className="size-8 rounded-lg mix-blend-multiply"
       />
+      {showName && (
+        <span className="font-display text-[19px] leading-none font-extrabold tracking-tight text-foreground">
+          GDG Southeastern
+        </span>
+      )}
     </span>
   );
 }

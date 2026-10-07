@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 export function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
@@ -29,4 +31,17 @@ export function initials(name: string) {
   const first = parts[0]?.[0] ?? "";
   const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
   return (first + last).toUpperCase();
+}
+
+type RiseOptions = { y?: number; blur?: number; scale?: number; dur?: number; delay?: number };
+
+/** Inline custom properties for the .rise entrance (see globals.css). */
+export function rise({ y, blur, scale, dur, delay }: RiseOptions): CSSProperties {
+  const style: Record<string, string> = {};
+  if (y !== undefined) style["--rise-y"] = `${y}px`;
+  if (blur !== undefined) style["--rise-blur"] = `${blur}px`;
+  if (scale !== undefined) style["--rise-scale"] = String(scale);
+  if (dur !== undefined) style["--rise-dur"] = `${dur}s`;
+  if (delay !== undefined) style["--rise-delay"] = `${delay}s`;
+  return style as CSSProperties;
 }

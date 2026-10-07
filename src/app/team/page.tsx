@@ -13,17 +13,19 @@ export default function TeamPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Our board"
-        title="Meet the team."
-        lead="The students who plan our events and keep the community growing. Tap a photo to see their LinkedIn, or send them an email."
+        title="Meet"
+        accent="the team."
+        lead="The students who plan our events and keep the community growing. Say hello on LinkedIn, or send them an email."
       />
-      <section aria-label="Board members" className="section-y">
-        <div className="container-site">
-          <h2 className="sr-only">Board members</h2>
+      <section aria-labelledby="board" className="px-6 pb-8">
+        <div className="mx-auto max-w-6xl">
+          <h2 id="board" className="sr-only">
+            Board members
+          </h2>
           <TeamGrid />
         </div>
       </section>
-      <JoinCTA title="Want to help lead?" />
+      <JoinCTA title="Want to" accent="help lead?" />
     </>
   );
 }

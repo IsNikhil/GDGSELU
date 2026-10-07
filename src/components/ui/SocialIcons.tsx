@@ -27,34 +27,34 @@ export function InstagramIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-type Tone = "site" | "ld" | "onDark";
+export const socialLinks = [
+  { label: "Instagram", href: site.social.instagram, Icon: InstagramIcon },
+  { label: "LinkedIn", href: site.social.linkedin, Icon: LinkedInIcon },
+];
 
-const tones: Record<Tone, string> = {
-  site: "border-line bg-surface text-fg hover:border-[#1a73e8] hover:text-[#1a73e8] dark:hover:border-[#8ab4f8] dark:hover:text-[#8ab4f8]",
-  ld: "border-ld-gold/50 text-ld-gold-light hover:border-ld-gold-light hover:bg-ld-gold/10",
-  onDark: "border-white/25 text-white hover:border-white hover:bg-white/10",
-};
-
-export function SocialLinks({ tone = "site", className }: { tone?: Tone; className?: string }) {
-  const links = [
-    { label: "GDG Southeastern on LinkedIn", href: site.social.linkedin, Icon: LinkedInIcon },
-    { label: "GDG Southeastern on Instagram", href: site.social.instagram, Icon: InstagramIcon },
-  ];
+/** Small square icon buttons, as in the reference footer. */
+export function SocialLinks({
+  className,
+  size = "sm",
+}: {
+  className?: string;
+  size?: "sm" | "md";
+}) {
   return (
     <ul className={cn("flex items-center gap-3", className)}>
-      {links.map(({ label, href, Icon }) => (
+      {socialLinks.map(({ label, href, Icon }) => (
         <li key={href}>
           <a
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={label}
+            aria-label={`GDG Southeastern on ${label}`}
             className={cn(
-              "flex size-12 items-center justify-center rounded-full border transition-[transform,color,border-color,background-color] duration-200 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0",
-              tones[tone],
+              "flex items-center justify-center border border-line bg-white text-subtle transition-all duration-200 hover:border-line-hover hover:text-muted",
+              size === "sm" ? "size-9 rounded-lg" : "size-11 rounded-xl",
             )}
           >
-            <Icon className="size-5" />
+            <Icon className={size === "sm" ? "size-4" : "size-[18px]"} />
           </a>
         </li>
       ))}
