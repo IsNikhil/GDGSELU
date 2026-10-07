@@ -2,7 +2,6 @@ import { AboutPreview } from "@/components/home/AboutPreview";
 import { FeaturedEvent } from "@/components/home/FeaturedEvent";
 import { Hero } from "@/components/home/Hero";
 import { JoinCTA } from "@/components/home/JoinCTA";
-import { TeamPreview } from "@/components/home/TeamPreview";
 import { WhatWeDo } from "@/components/home/WhatWeDo";
 
 export default function Home() {
@@ -16,7 +15,6 @@ export default function Home() {
           <FeaturedEvent />
         </div>
       </section>
-      <TeamPreview />
       <JoinCTA />
     </>
   );
