@@ -28,10 +28,11 @@ export const nav = [
   { label: "Contact", href: "/contact" },
 ];
 
+// Pill shown above the home page headline. Set text to "" to hide it.
 export const announcement = {
-  text: "LionDevs is coming. Build. Solve. Pitch.",
-  linkLabel: "Learn more",
-  href: "/liondevs",
+  badge: "New",
+  text: "LionDevs is here. Register your team.",
+  href: "/liondevs/register", // falls back to /liondevs while registration is closed
 };
 
 export const disclaimer =

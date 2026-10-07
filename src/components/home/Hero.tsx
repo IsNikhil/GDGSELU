@@ -1,12 +1,11 @@
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Sky } from "@/components/ui/Sky";
 import { techAreas } from "@/data/about";
-import { liondevs } from "@/data/liondevs";
 import { site } from "@/data/site";
 import { joinHref } from "@/lib/links";
 import { rise } from "@/lib/utils";
+import { AnnouncementPill } from "./AnnouncementPill";
 import { ChapterConsole } from "./ChapterConsole";
 
 export function Hero() {
@@ -18,6 +17,7 @@ export function Hero() {
       <Sky className="h-[85vh] min-h-[560px]" />
 
       <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center pt-14 text-center md:pt-[4.5rem]">
+        <AnnouncementPill />
         <h1 id="hero-title" className="rise mb-5" style={rise({ y: 30, blur: 6, delay: 0.35 })}>
           <span className="block text-[clamp(2.25rem,10.5vw,3rem)] leading-[0.95] font-extrabold tracking-[-0.03em] text-foreground md:text-[clamp(3rem,5vw,3.75rem)]">
             Where Lions learn
@@ -58,10 +58,8 @@ export function Hero() {
           className="rise mt-5 text-[14px] text-muted"
           style={rise({ y: 12, dur: 0.6, delay: 0.8 })}
         >
-          <Link href="/liondevs" className="transition-colors hover:text-foreground">
-            <span className="font-bold text-foreground">{liondevs.name}</span> is coming.{" "}
-            {liondevs.headline.join(" ")}
-          </Link>
+          Free and open to <span className="font-bold text-foreground">every student</span>, any
+          major.
         </p>
       </div>
 
