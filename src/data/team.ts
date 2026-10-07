@@ -6,7 +6,8 @@
 // For a photo, put the file in team-photos/ (for example team-photos/mahesh.jpg),
 // run `npm run images`, then set photo to "/images/team/mahesh.png".
 // Optional photoFocus ("x% y%", the face center) and photoZoom (1 = no zoom)
-// keep the face centered in the round avatar.
+// keep the face centered in the photo.
+// advisor: true lists the person under "Faculty advisor" instead of the student board.
 export type TeamMember = {
   name: string;
   role: string;
@@ -15,9 +16,19 @@ export type TeamMember = {
   photo: string;
   photoFocus?: string;
   photoZoom?: number;
+  advisor?: boolean;
 };
 
 export const team: TeamMember[] = [
+  {
+    name: "Dr. Ghassan Alkadi",
+    role: "Faculty Advisor",
+    email: "",
+    linkedin: "",
+    photo: "/images/team/ghassan.png",
+    photoFocus: "50% 30%",
+    advisor: true,
+  },
   {
     name: "Mahesh Raj Pandit",
     role: "President",

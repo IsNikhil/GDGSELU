@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { LinkedInIcon } from "@/components/ui/SocialIcons";
 import type { TeamMember } from "@/data/team";
-import { initials, isTBD } from "@/lib/utils";
+import { cn, initials, isTBD } from "@/lib/utils";
 
 function CopyEmail({ email }: { email: string }) {
   const [copied, setCopied] = useState(false);
@@ -39,20 +39,44 @@ function CopyEmail({ email }: { email: string }) {
   );
 }
 
-/** Board member card: portrait photo, name, role, and contact actions. */
-export function TeamCard({ member }: { member: TeamMember }) {
+/**
+ * Team member card: portrait photo, name, role, and contact actions.
+ * "wide" puts the photo beside the text, used for the faculty advisor.
+ */
+export function TeamCard({
+  member,
+  layout = "stacked",
+}: {
+  member: TeamMember;
+  layout?: "stacked" | "wide";
+}) {
+  const wide = layout === "wide";
   const hasEmail = !isTBD(member.email);
   const hasLinkedIn = !isTBD(member.linkedin);
 
   return (
-    <article className="group flex h-full flex-col rounded-2xl border border-line bg-white p-3 transition-colors duration-200 hover:border-line-hover">
-      <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-surface">
+    <article
+      className={cn(
+        "group flex h-full flex-col rounded-2xl border border-line bg-white p-3 transition-colors duration-200 hover:border-line-hover",
+        wide && "sm:flex-row sm:items-center sm:gap-4",
+      )}
+    >
+      <div
+        className={cn(
+          "relative aspect-[4/5] overflow-hidden rounded-xl bg-surface",
+          wide && "sm:w-[200px] sm:shrink-0",
+        )}
+      >
         {member.photo ? (
           <Image
             src={member.photo}
             alt={`Photo of ${member.name}`}
             fill
-            sizes="(min-width: 1024px) 270px, (min-width: 640px) 45vw, 90vw"
+            sizes={
+              wide
+                ? "(min-width: 640px) 200px, 90vw"
+                : "(min-width: 1024px) 270px, (min-width: 640px) 45vw, 90vw"
+            }
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
             style={{ objectPosition: member.photoFocus }}
           />
@@ -65,9 +89,16 @@ export function TeamCard({ member }: { member: TeamMember }) {
           </span>
         )}
       </div>
-      <div className="flex flex-1 flex-col px-2 pt-4 pb-1">
-        <h3 className="text-[18px] font-bold text-foreground">{member.name}</h3>
+      <div className={cn("flex flex-1 flex-col px-2 pt-4 pb-1", wide && "sm:py-4 sm:pr-4")}>
+        <h3 className={cn("font-bold text-foreground", wide ? "text-[22px]" : "text-[18px]")}>
+          {member.name}
+        </h3>
         <p className="text-[13.5px] text-muted">{member.role}</p>
+        {wide && (
+          <p className="mt-4 text-[14px] leading-relaxed text-muted">
+            Southeastern Louisiana University
+          </p>
+        )}
         {(hasEmail || hasLinkedIn) && (
           <div className="mt-auto flex items-center gap-2 pt-5">
             {hasEmail && (

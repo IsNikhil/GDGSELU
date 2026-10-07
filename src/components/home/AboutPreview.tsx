@@ -109,7 +109,7 @@ function AnyMajorVisual() {
 
 /** Board members as tilted photo cards. */
 function StudentRunVisual() {
-  const members = team.filter((m) => !isTBD(m.name)).slice(0, 4);
+  const members = team.filter((m) => !isTBD(m.name) && !m.advisor).slice(0, 4);
   const spots = [
     "left-[4%] top-[2%] rotate-[-5deg]",
     "right-[4%] top-[8%] rotate-[4deg]",

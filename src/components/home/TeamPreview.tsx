@@ -33,7 +33,7 @@ function Portrait({ m }: { m: TeamMember }) {
   );
 }
 
-/** Board members on a slow endless carousel that pauses on hover. */
+/** Advisor and board members on a slow endless carousel that pauses on hover. */
 export function TeamPreview() {
   const members = team.filter((m) => !isTBD(m.name));
   // Repeat so one half of the track is always wider than the screen.
@@ -47,13 +47,13 @@ export function TeamPreview() {
       <div className="px-6">
         <SectionHeading
           id="team-preview"
-          title="The students"
+          title="The people"
           accent="behind the chapter."
-          lead="The board that plans our events and keeps the community growing."
+          lead="Our faculty advisor and the student board that plans our events and keeps the community growing."
         />
       </div>
 
-      <h3 className="sr-only">Board members</h3>
+      <h3 className="sr-only">Our team</h3>
       <ul className="sr-only">
         {members.map((m) => (
           <li key={m.name}>

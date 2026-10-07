@@ -134,7 +134,7 @@ function BuildVisual() {
 }
 
 function CommunityVisual() {
-  const members = team.filter((m) => !isTBD(m.name));
+  const members = team.filter((m) => !isTBD(m.name) && !m.advisor);
   return (
     <Frame className="items-center justify-center">
       <div className="grid w-full max-w-sm grid-cols-2 gap-3">

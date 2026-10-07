@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Instrument_Serif } from "next/font/google";
+import { Collaborators } from "@/components/layout/Collaborators";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { site } from "@/data/site";
@@ -70,6 +71,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <main id="main" tabIndex={-1} className="flex-1 outline-none">
           {children}
         </main>
+        <Collaborators />
         <Footer />
       </body>
     </html>
