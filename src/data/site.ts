@@ -15,7 +15,7 @@ export const site = {
     "https://gdg.community.dev/gdg-on-campus-southeastern-louisiana-university-hammond-united-states/",
   // Public address of the deployed site. Used for SEO links and the sitemap.
   // Set NEXT_PUBLIC_SITE_URL when you deploy, or edit the fallback here.
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://gdgselu.com",
   logo: "/images/gdg-southeastern-logo.png",
 };
 

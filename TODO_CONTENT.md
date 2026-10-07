@@ -5,7 +5,7 @@ Every item below is a placeholder on the live site. Update the file listed, then
 ## Chapter (`src/data/site.ts`)
 
 - [ ] `contactEmail`: chapter email address. While "TBD", email links are hidden.
-- [ ] `url`: the real website address once deployed (or set `NEXT_PUBLIC_SITE_URL`). Used for SEO and the sitemap.
+- [x] `url`: set to https://gdgselu.com.
 
 ## LionDevs (`src/data/liondevs.ts`)
 
