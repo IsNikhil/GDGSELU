@@ -17,7 +17,13 @@ const defaultImage = {
 };
 
 /** Per page metadata with Open Graph and Twitter cards. */
-export function pageMetadata({ title, description = site.description, path, image = defaultImage, largeImage }: PageMeta): Metadata {
+export function pageMetadata({
+  title,
+  description = site.description,
+  path,
+  image = defaultImage,
+  largeImage,
+}: PageMeta): Metadata {
   const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.tagline}`;
   return {
     title: fullTitle,

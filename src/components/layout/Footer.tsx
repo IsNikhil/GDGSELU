@@ -12,10 +12,14 @@ export function Footer() {
 
   return (
     <footer className="relative overflow-hidden bg-[#0b3d2e] text-[#f7f3e8]">
-      <Brackets muted className="pointer-events-none absolute -right-10 -bottom-6 w-64 opacity-10 sm:w-80" />
+      <Brackets className="pointer-events-none absolute -right-10 -bottom-6 hidden w-80 opacity-10 md:block" />
       <div className="container-site relative grid gap-12 pt-16 pb-[max(2.5rem,env(safe-area-inset-bottom))] md:grid-cols-[1.4fr_1fr_1fr]">
         <div className="max-w-sm">
-          <Link href="/" className="inline-flex items-center gap-3 rounded-xl" aria-label="GDG Southeastern home">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-3 rounded-xl"
+            aria-label="GDG Southeastern home"
+          >
             <Logo size={56} />
             <span className="text-lg leading-tight font-bold">
               GDG <span className="text-[#e6c988]">Southeastern</span>
@@ -28,11 +32,16 @@ export function Footer() {
         </div>
 
         <nav aria-label="Footer">
-          <h2 className="text-sm font-bold tracking-[0.18em] text-[#e6c988] uppercase">Quick links</h2>
+          <h2 className="text-sm font-bold tracking-[0.18em] text-[#e6c988] uppercase">
+            Quick links
+          </h2>
           <ul className="mt-4 grid grid-cols-2 gap-x-4 md:grid-cols-1">
             {nav.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="inline-flex min-h-11 items-center text-[#f7f3e8]/85 hover:text-white">
+                <Link
+                  href={l.href}
+                  className="inline-flex min-h-11 items-center text-[#f7f3e8]/85 hover:text-white"
+                >
                   {l.label}
                 </Link>
               </li>

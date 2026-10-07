@@ -10,7 +10,11 @@ const tones: Record<Tone, string> = {
   ld: "border-ld-gold/50 bg-ld-gold/10 text-ld-gold-light",
 };
 
-export function Badge({ tone = "neutral", className, ...props }: ComponentProps<"span"> & { tone?: Tone }) {
+export function Badge({
+  tone = "neutral",
+  className,
+  ...props
+}: ComponentProps<"span"> & { tone?: Tone }) {
   return (
     <span
       className={cn(

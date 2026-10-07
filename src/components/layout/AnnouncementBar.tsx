@@ -21,7 +21,10 @@ export function AnnouncementBar() {
   };
 
   return (
-    <div className="announcement relative z-50 bg-[#0b1f1a] text-[#f7f3e8]">
+    <aside
+      aria-label="Announcement"
+      className="announcement relative z-50 bg-[#0b1f1a] text-[#f7f3e8]"
+    >
       <div className="container-site flex min-h-11 items-center justify-center gap-2 py-1.5 pr-12 text-center text-sm sm:pr-14">
         <span aria-hidden className="hidden size-1.5 rounded-full bg-[#e6c988] sm:inline-block" />
         <p>
@@ -43,6 +46,6 @@ export function AnnouncementBar() {
       >
         <X aria-hidden className="size-4" />
       </button>
-    </div>
+    </aside>
   );
 }

@@ -72,7 +72,12 @@ export function MobileMenu({ open, onClose, pathname, joinHref, dark }: Props) {
           )}
         >
           <div className="container-site flex h-16 shrink-0 items-center justify-between">
-            <Link href="/" onClick={onClose} className="flex items-center gap-3 rounded-xl" aria-label="GDG Southeastern home">
+            <Link
+              href="/"
+              onClick={onClose}
+              className="flex items-center gap-3 rounded-xl"
+              aria-label="GDG Southeastern home"
+            >
               <Logo size={40} />
             </Link>
             <button
@@ -88,15 +93,22 @@ export function MobileMenu({ open, onClose, pathname, joinHref, dark }: Props) {
             </button>
           </div>
 
-          <nav aria-label="Mobile" className="container-site flex flex-1 flex-col justify-center py-6">
+          <nav
+            aria-label="Mobile"
+            className="container-site flex flex-1 flex-col justify-center py-6"
+          >
             <motion.ul
               className="flex flex-col gap-1"
               initial="hidden"
               animate="show"
-              variants={{ hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.05 } } }}
+              variants={{
+                hidden: {},
+                show: { transition: { staggerChildren: 0.05, delayChildren: 0.05 } },
+              }}
             >
               {nav.map((link) => {
-                const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+                const active =
+                  link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
                 return (
                   <motion.li
                     key={link.href}
@@ -109,7 +121,8 @@ export function MobileMenu({ open, onClose, pathname, joinHref, dark }: Props) {
                       aria-current={active ? "page" : undefined}
                       className={cn(
                         "flex min-h-14 items-center justify-between rounded-2xl px-3 text-[clamp(1.75rem,7vw,2.5rem)] font-bold tracking-tight",
-                        active && (dark ? "text-ld-gold-light" : "text-[#1a73e8] dark:text-[#8ab4f8]"),
+                        active &&
+                          (dark ? "text-ld-gold-light" : "text-[#1a73e8] dark:text-[#8ab4f8]"),
                       )}
                     >
                       <span>{link.label}</span>

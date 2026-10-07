@@ -24,13 +24,7 @@ export function SectionHeading({
 }: Props) {
   const ld = tone === "ld";
   return (
-    <div
-      className={cn(
-        "max-w-3xl",
-        align === "center" && "mx-auto text-center",
-        className,
-      )}
-    >
+    <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center", className)}>
       {eyebrow && (
         <p
           className={cn(
@@ -53,10 +47,7 @@ export function SectionHeading({
       </Tag>
       {lead && (
         <p
-          className={cn(
-            "mt-4 text-[length:var(--text-lead)]",
-            ld ? "text-ld-muted" : "text-muted",
-          )}
+          className={cn("mt-4 text-[length:var(--text-lead)]", ld ? "text-ld-muted" : "text-muted")}
         >
           {lead}
         </p>

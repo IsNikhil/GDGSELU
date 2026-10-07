@@ -3,7 +3,15 @@ import { site } from "@/data/site";
 
 export const dynamic = "force-static";
 
-const routes = ["/", "/about/", "/events/", "/liondevs/", "/team/", "/contact/"];
+const routes = [
+  "/",
+  "/about/",
+  "/events/",
+  "/liondevs/",
+  "/liondevs/register/",
+  "/team/",
+  "/contact/",
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((path) => ({

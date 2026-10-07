@@ -14,7 +14,7 @@ type Props = {
   children: ReactNode;
   className?: string;
   delay?: number;
-  as?: "div" | "section" | "li" | "ul" | "article";
+  as?: "div" | "section" | "li" | "ul" | "ol" | "dl" | "article";
 };
 
 /** Fades and slides its content up when it scrolls into view. */
@@ -36,12 +36,7 @@ export function Reveal({ children, className, delay = 0, as = "div" }: Props) {
 }
 
 /** Parent for a group of RevealItem children that appear one after another. */
-export function Stagger({
-  children,
-  className,
-  as = "div",
-  gap = 0.09,
-}: Props & { gap?: number }) {
+export function Stagger({ children, className, as = "div", gap = 0.09 }: Props & { gap?: number }) {
   const M = motion[as];
   return (
     <M

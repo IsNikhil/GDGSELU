@@ -11,7 +11,8 @@ export const site = {
     linkedin: "https://www.linkedin.com/company/gdg-southeastern",
     instagram: "https://www.instagram.com/gdgselu/",
   },
-  joinUrl: "TBD", // GDG community page or sign up form
+  joinUrl:
+    "https://gdg.community.dev/gdg-on-campus-southeastern-louisiana-university-hammond-united-states/",
   // Public address of the deployed site. Used for SEO links and the sitemap.
   // Set NEXT_PUBLIC_SITE_URL when you deploy, or edit the fallback here.
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",

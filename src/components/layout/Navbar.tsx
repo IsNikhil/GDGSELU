@@ -4,8 +4,9 @@ import { Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { nav, site } from "@/data/site";
-import { cn, isTBD } from "@/lib/utils";
+import { nav } from "@/data/site";
+import { joinHref } from "@/lib/links";
+import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
 import { ThemeToggle } from "./ThemeToggle";
@@ -16,7 +17,6 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), [setOpen]);
-  const joinHref = isTBD(site.joinUrl) ? "/contact#join" : site.joinUrl;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -26,15 +26,13 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className={cn("sticky top-0 z-40", dark && "theme-liondevs")}>
+    <header className={cn("sticky top-0 z-40", dark && "theme-liondevs bg-ld-bg")}>
       {/* Background layer fades in on scroll (opacity only, for smooth 60 fps). */}
       <div
         aria-hidden
         className={cn(
           "absolute inset-0 border-b backdrop-blur-xl transition-opacity duration-300",
-          dark
-            ? "border-ld-gold/15 bg-ld-bg/80"
-            : "border-line bg-bg/75",
+          dark ? "border-ld-gold/15 bg-ld-bg/80" : "border-line bg-bg/75",
           scrolled ? "opacity-100" : "opacity-0",
         )}
       />

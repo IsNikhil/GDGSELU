@@ -39,7 +39,10 @@ type CommonProps = {
 };
 
 type LinkProps = CommonProps & { href: string } & Omit<ComponentProps<"a">, "href" | "className">;
-type NativeButtonProps = CommonProps & { href?: undefined } & Omit<ComponentProps<"button">, "className">;
+type NativeButtonProps = CommonProps & { href?: undefined } & Omit<
+    ComponentProps<"button">,
+    "className"
+  >;
 
 export function buttonClasses(variant: Variant = "primary", size: Size = "md", className?: string) {
   return cn(base, variants[variant], sizes[size], className);

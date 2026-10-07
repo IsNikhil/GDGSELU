@@ -3,7 +3,15 @@ import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
 /** The GDG Southeastern logo on its original white tile. Never recolored or stretched. */
-export function Logo({ size = 44, className, priority = false }: { size?: number; className?: string; priority?: boolean }) {
+export function Logo({
+  size = 44,
+  className,
+  priority = false,
+}: {
+  size?: number;
+  className?: string;
+  priority?: boolean;
+}) {
   return (
     <span
       className={cn(

@@ -4,7 +4,13 @@ import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-moti
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /** Pulls its child gently toward the pointer. Desktop (fine pointer) only. */
-export function Magnetic({ children, strength = 0.25 }: { children: ReactNode; strength?: number }) {
+export function Magnetic({
+  children,
+  strength = 0.25,
+}: {
+  children: ReactNode;
+  strength?: number;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const [enabled, setEnabled] = useState(false);

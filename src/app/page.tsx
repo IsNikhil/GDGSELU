@@ -1,3 +1,25 @@
+import { AboutPreview } from "@/components/home/AboutPreview";
+import { FeaturedEvent } from "@/components/home/FeaturedEvent";
+import { Hero } from "@/components/home/Hero";
+import { JoinCTA } from "@/components/home/JoinCTA";
+import { TeamPreview } from "@/components/home/TeamPreview";
+import { TechMarquee } from "@/components/home/TechMarquee";
+import { WhatWeDo } from "@/components/home/WhatWeDo";
+
 export default function Home() {
-  return <h1 className="container-site section-y text-[length:var(--text-h1)] font-bold">GDG Southeastern</h1>;
+  return (
+    <>
+      <Hero />
+      <AboutPreview />
+      <WhatWeDo />
+      <section aria-label="Featured event" className="pb-[var(--section-y)]">
+        <div className="container-site">
+          <FeaturedEvent />
+        </div>
+      </section>
+      <TeamPreview />
+      <TechMarquee />
+      <JoinCTA />
+    </>
+  );
 }
