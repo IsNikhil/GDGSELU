@@ -1,4 +1,4 @@
-import { ChevronDown, CalendarClock } from "lucide-react";
+import { CalendarClock, ChevronDown, GraduationCap } from "lucide-react";
 import Image from "next/image";
 import { liondevs } from "@/data/liondevs";
 import { parseDate } from "@/lib/utils";
@@ -107,6 +107,10 @@ export function LionDevsHero() {
 
         <p className="rise-in mt-6 max-w-2xl text-[length:var(--text-lead)] text-ld-muted [animation-delay:1100ms]">
           {liondevs.description}
+        </p>
+        <p className="rise-in mt-4 inline-flex items-center gap-2 text-sm font-semibold text-ld-gold-light [animation-delay:1180ms] sm:text-base">
+          <GraduationCap aria-hidden className="size-5 shrink-0" />
+          {liondevs.openTo}
         </p>
 
         <div className="rise-in mt-7 [animation-delay:1250ms]">

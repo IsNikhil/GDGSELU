@@ -44,8 +44,9 @@ export default function RegisterPage() {
           Register for <span className="text-gold-gradient">LionDevs</span>
         </h1>
         <p className="mt-4 max-w-2xl text-[length:var(--text-lead)] text-ld-muted">
-          Sign up to save your spot on the list. We will email you when the date, team details, and
-          challenge are announced. It takes about a minute.
+          Sign up to save your spot on the list. LionDevs is open to active students from any
+          college or university, not just Southeastern. Compete solo or in a team of up to 3. We
+          will email you when the date and challenge are announced. It takes about a minute.
         </p>
         <div className="mt-10">
           <RegistrationForm />

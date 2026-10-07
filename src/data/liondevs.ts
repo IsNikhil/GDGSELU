@@ -21,8 +21,8 @@ export const liondevs = {
   description:
     "A team-based competition where students tackle real-world challenges, build creative solutions, and present their ideas to judges and industry mentors.",
   highlights: [
-    { icon: "GraduationCap", text: "Open to All Majors" },
-    { icon: "Users", text: "Team Competition" },
+    { icon: "GraduationCap", text: "Open to All Majors and Schools" },
+    { icon: "Users", text: "Compete Solo or in Teams of 3" },
     { icon: "Trophy", text: "Prizes & Recognition" },
     { icon: "Lightbulb", text: "Industry Mentorship" },
     { icon: "Share2", text: "Networking Opportunities" },
@@ -32,12 +32,14 @@ export const liondevs = {
   // Shown while the date is not final. Set to "" once `date` is set.
   tentativeDate: "Finals planned for November 20, 2026",
   location: "Southeastern Louisiana University, Hammond, Louisiana",
-  eligibility: "All majors. Must be an active student.",
-  teamSize: "Teams of up to 3",
+  eligibility: "Any major, any school. Must be an active student.",
+  openTo: "Open to students from any college or university, not just Southeastern.",
+  teamSize: "Teams of up to 3, or compete solo",
   format: "Team competition",
   closingLine: "Form your team. Create impact. Join LionDevs.",
   registration: {
-    endpoint: "TBD",
+    endpoint:
+      "https://script.google.com/macros/s/AKfycbwxkqlxF36qE_twMS2TuWwzl7OowICAZytZ-_OQ-Tyvd6SWnUPM248QUz0xmNWGmL0qWA/exec",
     pageUrl: "/liondevs/register",
   },
   prizes: "TBD",
@@ -79,11 +81,11 @@ export const liondevs = {
   faqs: [
     {
       q: "Who can join?",
-      a: "Anyone can join. LionDevs is open to every major. You just need to be an active student.",
+      a: "Anyone can join. LionDevs is open to every major, and you do not have to be a Southeastern student. Students from any college or university are welcome. You just need to be an active student.",
     },
     {
       q: "Do I need a team?",
-      a: "Yes. LionDevs is a team competition, and teams can have up to 3 people. No team yet? Sign up anyway and tell us you want help finding one.",
+      a: "No. You can compete on your own or with a team of up to 3 people.",
     },
     {
       q: "When is it?",
@@ -91,7 +93,7 @@ export const liondevs = {
     },
     {
       q: "Where is it?",
-      a: "On campus at Southeastern Louisiana University in Hammond, Louisiana.",
+      a: "On campus at Southeastern Louisiana University in Hammond, Louisiana. Students from other schools are welcome to join us there.",
     },
     {
       q: "What can we win?",

@@ -31,6 +31,20 @@ No server, no paid service.
 
 Every "Registration opens soon" button now turns into "Register now", and the form starts saving to the sheet.
 
+## Updating the script
+
+When `docs/registration-apps-script.gs` changes (for example, new form fields):
+
+1. Open the sheet, then **Extensions > Apps Script**.
+2. Replace all the code with the new version and click **Save**.
+3. Click **Deploy > Manage deployments**, click the pencil icon, set **Version** to **New version**, and click **Deploy**.
+
+The URL stays the same, so the website does not need to change.
+
+The script keeps the columns in the order listed in `COLUMNS` and deletes any listed in `REMOVED_COLUMNS`.
+It fixes the sheet on the next sign up. To fix it right away, pick `reorderColumns` in the function
+menu at the top of the Apps Script editor and click **Run**. Existing data is kept.
+
 ## Notes
 
 - If you change the script later, use **Deploy > Manage deployments > Edit > New version** so the URL stays the same.

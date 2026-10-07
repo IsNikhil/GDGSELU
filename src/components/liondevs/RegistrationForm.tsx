@@ -8,12 +8,12 @@ import { site } from "@/data/site";
 import { cn, isTBD } from "@/lib/utils";
 
 type Status = "idle" | "sending" | "done" | "error";
-type Errors = Partial<Record<"name" | "email" | "major" | "team" | "student", string>>;
+type Errors = Partial<Record<"name" | "email" | "school" | "major" | "team" | "student", string>>;
 
 const years = ["Freshman", "Sophomore", "Junior", "Senior", "Graduate student", "Other"];
 const teamOptions = [
   { value: "have-team", label: "I already have a team (up to 3)" },
-  { value: "need-team", label: "I want help finding a team" },
+  { value: "solo", label: "I am competing alone" },
   { value: "not-sure", label: "Not sure yet" },
 ];
 const interestOptions = [
@@ -46,6 +46,7 @@ function validate(data: FormData): Errors {
   if (name.length < 2) errors.name = "Please enter your full name.";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     errors.email = "Please enter a valid email address.";
+  if (!String(data.get("school") ?? "").trim()) errors.school = "Please enter your school name.";
   if (!String(data.get("major") ?? "").trim()) errors.major = "Please enter your major.";
   if (!data.get("team")) errors.team = "Please choose one option.";
   if (!data.get("student"))
@@ -94,7 +95,6 @@ export function RegistrationForm() {
     body.set("interests", data.getAll("interests").join(", "));
     body.set("consent", data.get("consent") ? "yes" : "no");
     body.set("student", data.get("student") ? "yes" : "no");
-    body.set("page", window.location.href);
 
     setStatus("sending");
     try {
@@ -238,6 +238,49 @@ export function RegistrationForm() {
               {errors.email}
             </p>
           )}
+        </div>
+
+        <div>
+          <label htmlFor="reg-school" className={label}>
+            School name{" "}
+            <span aria-hidden className="text-ld-gold-light">
+              *
+            </span>
+          </label>
+          <input
+            id="reg-school"
+            name="school"
+            type="text"
+            autoComplete="organization"
+            required
+            aria-invalid={Boolean(errors.school)}
+            aria-describedby={`reg-school-hint${errors.school ? " reg-school-error" : ""}`}
+            className={field}
+          />
+          <p id="reg-school-hint" className={hint}>
+            Students from any college or university can join.
+          </p>
+          {errors.school && (
+            <p id="reg-school-error" className={errorText}>
+              {errors.school}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="reg-advisor" className={label}>
+            Advisor name
+          </label>
+          <input
+            id="reg-advisor"
+            name="advisor"
+            type="text"
+            aria-describedby="reg-advisor-hint"
+            className={field}
+          />
+          <p id="reg-advisor-hint" className={hint}>
+            Faculty advisor or mentor, if you have one.
+          </p>
         </div>
 
         <div>

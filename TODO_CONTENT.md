@@ -9,7 +9,7 @@ Every item below is a placeholder on the live site. Update the file listed, then
 
 ## LionDevs (`src/data/liondevs.ts`)
 
-- [ ] `registration.endpoint`: Google Apps Script URL. Steps in `docs/registration-setup.md`. Until set, every Register button says "Registration opens soon".
+- [x] `registration.endpoint`: connected to the Google Apps Script web app. Send one test sign up to confirm a row appears in the sheet.
 - [ ] `date`: exact date and time of the finals as an ISO date (for example `2026-11-20T09:00:00-06:00`). Setting it turns on the live countdown. Then set `tentativeDate` to "".
 - [ ] `timeline`: confirm the two tentative dates (challenge start in early November, finals on November 20).
 - [ ] `challenge`: the challenge statement.
@@ -19,7 +19,7 @@ Every item below is a placeholder on the live site. Update the file listed, then
 
 ## Team (`src/data/team.ts`)
 
-- [ ] Photos for each board member. Put files in `team-photos/` and set `photo` (see the comment at the top of the file).
+- [x] Photos for all four board members. Adjust `photoFocus` and `photoZoom` if a face is off center.
 
 ## Brand
 

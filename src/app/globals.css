@@ -25,6 +25,7 @@
   --g-green: #34a853;
   --brand-green: #0b3d2e;
   --brand-gold: #d4af6a;
+  --logo-bg: #f8f7f3; /* matches the background baked into the GDG logo file */
 
   /* LionDevs (always dark) */
   --ld-bg: #0b1f1a;

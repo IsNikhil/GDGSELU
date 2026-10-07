@@ -84,7 +84,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="fade-in relative mx-auto w-full max-w-[min(100%,380px)] [animation-delay:200ms] lg:max-w-[420px]">
+        <div className="fade-in relative mx-auto w-full max-w-[min(100%,260px)] [animation-delay:200ms] sm:max-w-[300px]">
           <FloatingBracket
             side="left"
             className="animate-float absolute top-[8%] -left-[6%] w-[16%] [animation-delay:-2s]"
@@ -93,10 +93,10 @@ export function Hero() {
             side="right"
             className="animate-float absolute -right-[4%] bottom-[10%] w-[16%] [animation-delay:-4s]"
           />
-          <div className="relative aspect-square rounded-[2.5rem] border border-line bg-white p-[8%] shadow-card-lg">
+          <div className="relative aspect-square rounded-[2rem] bg-[var(--logo-bg)] p-[3%] shadow-card-lg ring-1 ring-black/5">
             <div
               aria-hidden
-              className="absolute inset-0 -z-10 translate-y-4 scale-95 rounded-[2.5rem] bg-[conic-gradient(from_180deg,#4285f4,#34a853,#fbbc04,#ea4335,#4285f4)] opacity-40 blur-2xl"
+              className="absolute inset-0 -z-10 translate-y-4 scale-95 rounded-[2rem] bg-[conic-gradient(from_180deg,#4285f4,#34a853,#fbbc04,#ea4335,#4285f4)] opacity-40 blur-2xl"
             />
             <Image
               src={site.logo}
@@ -104,7 +104,7 @@ export function Hero() {
               width={200}
               height={200}
               priority
-              sizes="(min-width: 1024px) 360px, 80vw"
+              sizes="300px"
               className="h-full w-full object-contain"
             />
           </div>

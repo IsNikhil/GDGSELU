@@ -1,4 +1,4 @@
-import { ArrowRight, CalendarDays, MapPin } from "lucide-react";
+import { ArrowRight, CalendarDays, GraduationCap, MapPin } from "lucide-react";
 import Image from "next/image";
 import { CircuitCorner } from "@/components/liondevs/CircuitLines";
 import { Button } from "@/components/ui/Button";
@@ -72,6 +72,10 @@ export function FeaturedEvent({ headingLevel = "h2" }: { headingLevel?: "h2" | "
               <li className="flex items-center gap-2">
                 <MapPin aria-hidden className="size-4 text-ld-gold" />
                 Hammond, Louisiana
+              </li>
+              <li className="flex items-center gap-2">
+                <GraduationCap aria-hidden className="size-4 text-ld-gold" />
+                Open to students from any school
               </li>
             </ul>
             <Button href="/liondevs" variant="gold" size="lg" className="mt-8">

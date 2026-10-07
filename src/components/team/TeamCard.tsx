@@ -8,10 +8,20 @@ import { LinkedInIcon } from "@/components/ui/SocialIcons";
 import type { TeamMember } from "@/data/team";
 import { cn, initials, isTBD } from "@/lib/utils";
 
-function Avatar({ name, photo }: { name: string; photo: string }) {
+function Avatar({
+  name,
+  photo,
+  focus = "50% 50%",
+  zoom = 1,
+}: {
+  name: string;
+  photo: string;
+  focus?: string;
+  zoom?: number;
+}) {
   return (
     <div className="relative size-28 rounded-full bg-[conic-gradient(from_200deg,#4285f4,#34a853,#fbbc04,#ea4335,#4285f4)] p-[3px]">
-      <div className="size-full overflow-hidden rounded-full bg-surface p-[3px]">
+      <div className="size-full overflow-hidden rounded-full bg-surface p-[3px] [&>img]:rounded-full">
         {photo ? (
           <Image
             src={photo}
@@ -20,6 +30,7 @@ function Avatar({ name, photo }: { name: string; photo: string }) {
             height={112}
             sizes="112px"
             className="size-full rounded-full object-cover"
+            style={{ objectPosition: focus, transform: `scale(${zoom})`, transformOrigin: focus }}
           />
         ) : (
           <div
@@ -39,7 +50,12 @@ function ProfileAvatar({ member }: { member: TeamMember }) {
   if (isTBD(member.linkedin)) {
     return (
       <div className="mx-auto">
-        <Avatar name={member.name} photo={member.photo} />
+        <Avatar
+          name={member.name}
+          photo={member.photo}
+          focus={member.photoFocus}
+          zoom={member.photoZoom}
+        />
       </div>
     );
   }
@@ -51,7 +67,12 @@ function ProfileAvatar({ member }: { member: TeamMember }) {
       aria-label={`${member.name} on LinkedIn (opens in a new tab)`}
       className="group/avatar relative mx-auto block rounded-full transition-transform duration-300 hover:scale-[1.04] motion-reduce:hover:scale-100"
     >
-      <Avatar name={member.name} photo={member.photo} />
+      <Avatar
+        name={member.name}
+        photo={member.photo}
+        focus={member.photoFocus}
+        zoom={member.photoZoom}
+      />
       <span
         aria-hidden
         className="absolute right-0 bottom-0 flex size-9 items-center justify-center rounded-full border-[3px] border-surface bg-[#0a66c2] text-white shadow-card transition-transform duration-300 group-hover/avatar:scale-110"

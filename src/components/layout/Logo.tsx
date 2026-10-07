@@ -15,7 +15,7 @@ export function Logo({
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 overflow-hidden rounded-xl bg-white ring-1 ring-black/5",
+        "inline-flex shrink-0 overflow-hidden rounded-xl bg-[var(--logo-bg)] ring-1 ring-black/5",
         className,
       )}
       style={{ width: size, height: size }}
