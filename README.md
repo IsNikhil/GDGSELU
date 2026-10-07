@@ -15,16 +15,15 @@ npm run dev        # http://localhost:3000
 ## Build and deploy
 
 ```bash
-npm run build      # writes a plain static site to out/
-npm start          # preview the built site
+npm run build      # production build
+npm start          # run the built site locally
 ```
 
-Upload the `out/` folder to any static host:
+The site is deployed on **Vercel** (Next.js preset, default output settings). Pages are
+prerendered at build time; the only server code is the private board inbox at `/inbox`,
+which needs a few environment variables. See `docs/inbox-setup.md` and `.env.example`.
 
-- **Vercel or Netlify:** import the repo. Build command `npm run build`, output folder `out`.
-- **GitHub Pages:** run the build in a GitHub Action and publish `out/`.
-
-Set `NEXT_PUBLIC_SITE_URL` to the live address (for example `https://gdgselu.org`) so SEO links and the sitemap are correct.
+Set `NEXT_PUBLIC_SITE_URL` to the live address (for example `https://gdgselu.com`) so SEO links and the sitemap are correct.
 
 ## Checks
 
@@ -38,17 +37,17 @@ npm run typecheck
 
 All text lives in `src/data/`. Change a value, save, and rebuild.
 
-| What | File | Field |
-|---|---|---|
-| LionDevs date (turns on the countdown) | `src/data/liondevs.ts` | `date`, as `"2026-11-20T09:00:00-06:00"`. Then set `tentativeDate` to `""` |
-| Registration form | `src/data/liondevs.ts` | `registration.endpoint`. See `docs/registration-setup.md` |
-| Timeline, challenge, prizes, FAQ | `src/data/liondevs.ts` | `timeline`, `challenge`, `prizes`, `faqs` |
-| Mentors, judges, sponsors | `src/data/liondevs.ts` | `mentors`, `judges`, `sponsors` (empty lists are hidden) |
-| Board members, emails, LinkedIn | `src/data/team.ts` | each member. A name of `"TBD"` hides the card |
-| Board photos | `team-photos/` + `src/data/team.ts` | drop `name.jpg` in `team-photos/`, set `photo: "/images/team/name.png"` |
-| Chapter email, join link, socials | `src/data/site.ts` | `contactEmail`, `joinUrl`, `social` |
-| Announcement bar | `src/data/site.ts` | `announcement` |
-| About text and tech chips | `src/data/about.ts` | |
+| What                                   | File                                | Field                                                                      |
+| -------------------------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
+| LionDevs date (turns on the countdown) | `src/data/liondevs.ts`              | `date`, as `"2026-11-20T09:00:00-06:00"`. Then set `tentativeDate` to `""` |
+| Registration form                      | `src/data/liondevs.ts`              | `registration.endpoint`. See `docs/registration-setup.md`                  |
+| Timeline, challenge, prizes, FAQ       | `src/data/liondevs.ts`              | `timeline`, `challenge`, `prizes`, `faqs`                                  |
+| Mentors, judges, sponsors              | `src/data/liondevs.ts`              | `mentors`, `judges`, `sponsors` (empty lists are hidden)                   |
+| Board members, emails, LinkedIn        | `src/data/team.ts`                  | each member. A name of `"TBD"` hides the card                              |
+| Board photos                           | `team-photos/` + `src/data/team.ts` | drop `name.jpg` in `team-photos/`, set `photo: "/images/team/name.png"`    |
+| Chapter email, join link, socials      | `src/data/site.ts`                  | `contactEmail`, `joinUrl`, `social`                                        |
+| Announcement bar                       | `src/data/site.ts`                  | `announcement`                                                             |
+| About text and tech chips              | `src/data/about.ts`                 |                                                                            |
 
 Images in `brand-assets/` and `team-photos/` are resized to WebP automatically when you run `npm run dev` or `npm run build`.
 

@@ -1,7 +1,11 @@
 /**
- * LionDevs registration: Google Apps Script web app.
- * Saves each sign up from the website to this Google Sheet and
- * (optionally) sends the person a short confirmation email.
+ * GDG Southeastern website forms: Google Apps Script web app.
+ *
+ * 1. LionDevs registration: saves each sign up to the "Registrations" tab and
+ *    (optionally) sends the person a short confirmation email.
+ * 2. Contact form (form=contact): saves each message to the "Messages" tab and
+ *    emails it to CONTACT_TO (default info@gdgselu.com) with reply-to set to the sender.
+ *
  * Setup steps are in docs/registration-setup.md.
  *
  * Email goes through Resend when the RESEND_API_KEY script property is set,
@@ -18,6 +22,11 @@ var SHEET_NAME = "Registrations";
 var SEND_CONFIRMATION_EMAIL = true;
 var FROM_NAME = "GDG Southeastern";
 var RESEND_ENDPOINT = "https://api.resend.com/emails";
+
+var MESSAGES_SHEET = "Messages";
+var MESSAGE_COLUMNS = ["Timestamp", "Name", "Email", "Topic", "Message", "Emailed"];
+var DEFAULT_CONTACT_TO = "info@gdgselu.com";
+var CONTACT_COOLDOWN_SECONDS = 60; // one message per email address per minute
 
 var COLUMNS = [
   "Timestamp", "Name", "Email", "Major", "School", "Advisor", "Year", "Active student",
@@ -39,6 +48,8 @@ function doPost(e) {
   lock.waitLock(10000);
   try {
     var p = e.parameter || {};
+    if (p.form === "contact") return handleContact(p);
+
     var email = String(p.email || "").trim().toLowerCase();
     var name = String(p.name || "").trim();
     if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -117,7 +128,9 @@ function sendEmail(msg) {
   var props = PropertiesService.getScriptProperties();
   var key = cleanProp(props.getProperty("RESEND_API_KEY"));
   if (!key) {
-    MailApp.sendEmail({ to: msg.to, name: FROM_NAME, subject: msg.subject, htmlBody: msg.html });
+    var mail = { to: msg.to, name: FROM_NAME, subject: msg.subject, htmlBody: msg.html };
+    if (msg.replyTo) mail.replyTo = msg.replyTo;
+    MailApp.sendEmail(mail);
     return;
   }
 
@@ -130,7 +143,7 @@ function sendEmail(msg) {
     );
   }
   var payload = { from: from, to: [msg.to], subject: msg.subject, html: msg.html, text: msg.text };
-  var replyTo = cleanProp(props.getProperty("RESEND_REPLY_TO"));
+  var replyTo = msg.replyTo || cleanProp(props.getProperty("RESEND_REPLY_TO"));
   if (replyTo) payload.reply_to = replyTo;
 
   var res = UrlFetchApp.fetch(RESEND_ENDPOINT, {
@@ -144,6 +157,63 @@ function sendEmail(msg) {
   if (code < 200 || code >= 300) {
     throw new Error("Resend responded " + code + ": " + res.getContentText());
   }
+}
+
+/**
+ * Contact form. Fields use different names than the registration form
+ * (fullName, replyEmail), so an older script version rejects them instead of
+ * saving them as LionDevs sign ups.
+ */
+function handleContact(p) {
+  var name = String(p.fullName || "").trim().slice(0, 200);
+  var email = String(p.replyEmail || "").trim().toLowerCase().slice(0, 254);
+  var topic = String(p.topic || "General").trim().slice(0, 100);
+  var message = String(p.message || "").trim().slice(0, 5000);
+  if (name.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || message.length < 10) {
+    return json({ ok: false, error: "invalid" });
+  }
+
+  var cache = CacheService.getScriptCache();
+  var cooldownKey = "contact:" + email;
+  if (cache.get(cooldownKey)) return json({ ok: false, error: "too_soon" });
+  cache.put(cooldownKey, "1", CONTACT_COOLDOWN_SECONDS);
+
+  var sheet = getMessagesSheet();
+  sheet.appendRow([new Date(), clean(name), email, clean(topic), cleanLong(message), "pending"]);
+  var row = sheet.getLastRow();
+
+  var to = cleanProp(PropertiesService.getScriptProperties().getProperty("CONTACT_TO")) || DEFAULT_CONTACT_TO;
+  var status = "yes";
+  try {
+    sendEmail({
+      to: to,
+      replyTo: email,
+      subject: "[Website] " + topic + ": " + name,
+      html:
+        "<p><b>From:</b> " + escapeHtml(name) + " &lt;" + escapeHtml(email) + "&gt;<br>" +
+        "<b>Topic:</b> " + escapeHtml(topic) + "</p>" +
+        "<p>" + escapeHtml(message).replace(/\n/g, "<br>") + "</p>" +
+        "<p style=\"color:#888;font-size:12px\">Sent from the contact form on gdgselu.com. Reply to this email to answer " + escapeHtml(name) + ".</p>",
+      text: "From: " + name + " <" + email + ">\nTopic: " + topic + "\n\n" + message
+    });
+  } catch (mailErr) {
+    status = "failed";
+    console.error("Contact email failed: " + mailErr);
+  }
+  sheet.getRange(row, MESSAGE_COLUMNS.indexOf("Emailed") + 1).setValue(status);
+  // The message is saved either way, so the visitor sees success.
+  return json({ ok: true });
+}
+
+function getMessagesSheet() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(MESSAGES_SHEET) || ss.insertSheet(MESSAGES_SHEET);
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(MESSAGE_COLUMNS);
+    sheet.setFrozenRows(1);
+    sheet.getRange(1, 1, 1, MESSAGE_COLUMNS.length).setFontWeight("bold");
+  }
+  return sheet;
 }
 
 /** Trims a script property and strips quotes or backticks pasted around it. */
@@ -230,6 +300,12 @@ function isDuplicate(sheet, headers, email) {
 // Stops spreadsheet formula injection and trims long input.
 function clean(v) {
   var s = String(v || "").trim().slice(0, 1000);
+  return /^[=+\-@]/.test(s) ? "'" + s : s;
+}
+
+// Like clean(), with room for longer messages.
+function cleanLong(v) {
+  var s = String(v || "").trim().slice(0, 5000);
   return /^[=+\-@]/.test(s) ? "'" + s : s;
 }
 

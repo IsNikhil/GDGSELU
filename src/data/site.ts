@@ -6,7 +6,11 @@ export const site = {
   description:
     "GDG Southeastern is a student-run developer community at Southeastern Louisiana University. Workshops, tech talks, projects, and LionDevs.",
   location: "Southeastern Louisiana University, Hammond, Louisiana",
-  contactEmail: "TBD", // add chapter email
+  contactEmail: "info@gdgselu.com",
+  // Google Apps Script web app that receives the website forms (LionDevs registration and
+  // the contact form). See docs/registration-setup.md. "TBD" disables both forms.
+  formsEndpoint:
+    "https://script.google.com/macros/s/AKfycbzDZRzV6UjomoTMPCaYg-pZwEbTxc4qD-H9pxRHBtzF4ppu7nbtPhKSeGNNkoHdxrWwdQ/exec",
   social: {
     linkedin: "https://www.linkedin.com/company/gdg-southeastern",
     instagram: "https://www.instagram.com/gdgselu/",

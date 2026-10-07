@@ -1,11 +1,14 @@
+import { site } from "./site";
+
 // Everything on the /liondevs page comes from here.
 // Facts are from the official LionDevs poster. Keep "TBD" until the real value is known.
 //
 // date:        "TBD" or an ISO date like "2027-02-20T09:00:00-06:00".
 //              A real date turns on the live countdown automatically.
 // registration.endpoint: the Google Apps Script web app URL that saves sign ups to a
-//              Google Sheet (see docs/registration-setup.md). While it is "TBD" every
-//              Register button shows a disabled "Registration opens soon" state.
+//              Google Sheet (see docs/registration-setup.md). It is set once as
+//              formsEndpoint in src/data/site.ts. While it is "TBD" every Register
+//              button shows a disabled "Registration opens soon" state.
 // poster:      "" hides the poster section. Put the file in brand-assets/liondevs-poster.png,
 //              run `npm run images`, then set this to "/images/liondevs-poster.png".
 
@@ -38,8 +41,7 @@ export const liondevs = {
   format: "Team competition",
   closingLine: "Form your team. Create impact. Join LionDevs.",
   registration: {
-    endpoint:
-      "https://script.google.com/macros/s/AKfycbzDZRzV6UjomoTMPCaYg-pZwEbTxc4qD-H9pxRHBtzF4ppu7nbtPhKSeGNNkoHdxrWwdQ/exec",
+    endpoint: site.formsEndpoint, // set in src/data/site.ts
     pageUrl: "/liondevs/register",
   },
   prizes: "TBD",

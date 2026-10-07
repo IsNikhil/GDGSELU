@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Instrument_Serif } from "next/font/google";
 import { Collaborators } from "@/components/layout/Collaborators";
 import { Footer } from "@/components/layout/Footer";
+import { HideOnInbox } from "@/components/layout/HideOnInbox";
 import { Navbar } from "@/components/layout/Navbar";
 import { site } from "@/data/site";
 import { jsonLd, pageMetadata } from "@/lib/seo";
@@ -67,12 +68,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           Skip to content
         </a>
-        <Navbar />
+        <HideOnInbox>
+          <Navbar />
+        </HideOnInbox>
         <main id="main" tabIndex={-1} className="flex-1 outline-none">
           {children}
         </main>
-        <Collaborators />
-        <Footer />
+        <HideOnInbox>
+          <Collaborators />
+          <Footer />
+        </HideOnInbox>
       </body>
     </html>
   );

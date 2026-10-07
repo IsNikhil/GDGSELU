@@ -1,7 +1,12 @@
-# LionDevs registration setup (about 10 minutes)
+# Website forms setup (about 10 minutes)
 
-The form at `/liondevs/register` sends each sign up to a Google Sheet that the chapter owns.
+Both website forms post to one Google Apps Script attached to a Google Sheet the chapter owns.
 No server, no paid service.
+
+- `/liondevs/register` saves each sign up to the **Registrations** tab.
+- The contact form on `/contact` saves each message to the **Messages** tab and emails it to
+  `info@gdgselu.com` (or the `CONTACT_TO` script property). Hit reply on that email to answer
+  the sender directly.
 
 ## 1. Create the sheet
 
@@ -25,8 +30,8 @@ No server, no paid service.
 
 ## 4. Connect the website
 
-1. Open `src/data/liondevs.ts`.
-2. Set `registration.endpoint` to the URL you copied.
+1. Open `src/data/site.ts`.
+2. Set `formsEndpoint` to the URL you copied. Both forms use it.
 3. Rebuild and redeploy the site.
 
 Every "Registration opens soon" button now turns into "Register now", and the form starts saving to the sheet.
@@ -50,12 +55,13 @@ the website is public, and anyone who finds the key can send email as your domai
 3. **Add the script properties.** In the Apps Script editor, open **Project Settings**
    (gear icon) > **Script Properties** > **Add script property**, and add:
 
-   | Property          | Value                                                    |
-   | ----------------- | -------------------------------------------------------- |
-   | `RESEND_API_KEY`  | the key from step 2                                      |
-   | `RESEND_FROM`     | `GDG Southeastern <hello@gdgselu.com>` (verified domain) |
-   | `RESEND_REPLY_TO` | optional, the inbox that should get replies              |
-   | `TEST_EMAIL`      | your own email, for the test below                       |
+   | Property          | Value                                                                  |
+   | ----------------- | ---------------------------------------------------------------------- |
+   | `RESEND_API_KEY`  | the key from step 2                                                    |
+   | `RESEND_FROM`     | `GDG Southeastern <hello@gdgselu.com>` (verified domain)               |
+   | `RESEND_REPLY_TO` | optional, the inbox that should get replies                            |
+   | `TEST_EMAIL`      | your own email, for the test below                                     |
+   | `CONTACT_TO`      | optional, inbox for contact form messages (default `info@gdgselu.com`) |
 
 4. **Test it.** Pick `testEmail` in the function menu at the top of the editor and click **Run**.
    Approve the new permission ("Connect to an external service") the first time. Check your inbox.

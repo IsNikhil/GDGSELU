@@ -101,7 +101,10 @@ export function Footer() {
 
         <div className="mt-16 flex flex-col gap-4 border-t border-line pt-8 text-[12px] text-subtle md:flex-row md:items-start md:justify-between">
           <p>
-            &copy; {year} {site.name}. All rights reserved.
+            &copy; {year} {site.name}. All rights reserved.{" "}
+            <Link href="/inbox" className="ml-2 text-subtle/70 transition-colors hover:text-muted">
+              Board login
+            </Link>
           </p>
           <p className="max-w-xl md:text-right">{disclaimer}</p>
         </div>

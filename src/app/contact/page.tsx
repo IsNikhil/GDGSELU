@@ -1,4 +1,5 @@
 import { ArrowUpRight, Mail, MapPin } from "lucide-react";
+import { ContactForm } from "@/components/contact/ContactForm";
 import { Button } from "@/components/ui/Button";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Reveal } from "@/components/ui/Reveal";
@@ -20,13 +21,6 @@ const cardBase =
 export default function ContactPage() {
   const hasEmail = !isTBD(site.contactEmail);
   const channels = [
-    { Icon: InstagramIcon, label: "Instagram", value: "@gdgselu", href: site.social.instagram },
-    {
-      Icon: LinkedInIcon,
-      label: "LinkedIn",
-      value: "GDG Southeastern",
-      href: site.social.linkedin,
-    },
     ...(hasEmail
       ? [
           {
@@ -37,6 +31,13 @@ export default function ContactPage() {
           },
         ]
       : []),
+    { Icon: InstagramIcon, label: "Instagram", value: "@gdgselu", href: site.social.instagram },
+    {
+      Icon: LinkedInIcon,
+      label: "LinkedIn",
+      value: "GDG Southeastern",
+      href: site.social.linkedin,
+    },
   ];
 
   return (
@@ -46,6 +47,36 @@ export default function ContactPage() {
         accent="hello."
         lead="Questions, ideas, or want to partner with us? Reach out on any of these."
       />
+
+      <section aria-labelledby="message-title" className="px-6 pb-16 md:pb-24">
+        <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-12 lg:gap-16">
+          <Reveal blur={8} className="lg:col-span-4">
+            <h2
+              id="message-title"
+              className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl"
+            >
+              Send a <span className="serif-italic">message</span>
+            </h2>
+            <p className="mt-5 text-[15px] leading-relaxed text-muted">
+              It goes straight to the board. We reply to the email you give us.
+            </p>
+            {hasEmail && (
+              <p className="mt-4 text-[14px] text-muted">
+                Prefer email? Write to{" "}
+                <a
+                  href={`mailto:${site.contactEmail}`}
+                  className="font-semibold text-foreground underline decoration-black/20 underline-offset-4 hover:decoration-black/60"
+                >
+                  {site.contactEmail}
+                </a>
+              </p>
+            )}
+          </Reveal>
+          <Reveal y={32} delay={0.1} className="lg:col-span-8">
+            <ContactForm />
+          </Reveal>
+        </div>
+      </section>
 
       <section aria-labelledby="channels" className="px-6 pb-16 md:pb-24">
         <h2 id="channels" className="sr-only">
